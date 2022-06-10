@@ -1,7 +1,7 @@
 ## CS4641 Summer 2022 Project - Polysomnography Data
 
 ### Infographic
-![Infographic](Infographic 3.png)
+![Infographic](Infographic3.png)
 
 ### Introduction
 Sleep is an important physiological process directly correlated with physical health, mental well-being, and chronic disease risk. Unfortunately, nearly 70 million Americans suffer from sleep disorders.<sup>1</sup> The most effective measurement of sleep quality to date is collecting polysomnography (PSG) data in a sleep laboratory and measuring the duration of sleep stages. However, sleep studies are expensive, time-consuming, and inaccessible to the majority of the population. Wearables have attempted to use heart rate data and machine learning algorithms to predict sleep stage, but suffer from low accuracy.<sup>2</sup> We intend to create a machine learning model for the automatic classification of sleep stages using a minimum viable subset of biosignals from PSG data.
