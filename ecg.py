@@ -17,16 +17,15 @@ class ECG:
         self.windowSizeSec = windowSize
 
         # Constants:
-        samplingRate = 500
+        self.samplingRate = 512
         windowStepSec = 30 # Length of epoch
 
         
         rawEcg = np.array(ecgData["ECG1-ECG2"])
         windowOverlap = (windowSize - windowStepSec)/windowSize
-        print(windowOverlap)
         workingData, measures = hp.process_segmentwise( # Find heart beats and calculate heart rate metrics
             rawEcg, 
-            samplingRate, 
+            self.samplingRate, 
             segment_width = self.windowSizeSec, 
             segment_overlap = windowOverlap,
             calc_freq = True,
@@ -42,8 +41,8 @@ class ECG:
         return self.ecgData[self.ecgData["epoch"] == epoch]
 
     def getRawDataByTime(self, startTime, range):
-        startTime = startTime * 500 # startTime * samplingRate to convert from desired second to desired sample
-        range = range * 500 # Multiply by sampling rate to get number of datapoints 
+        startTime = startTime * self.samplingRate # startTime * samplingRate to convert from desired second to desired sample
+        range = range * self.samplingRate # Multiply by sampling rate to get number of datapoints 
         endTime = startTime + range
         return self.ecgData.loc[startTime:endTime, :]
 

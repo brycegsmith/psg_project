@@ -20,18 +20,19 @@ def energy(signal):
 
 class EMG:
 
-    def __init__(self, emgData, filterOrder = 10, hpCutoff = 30, lpCutoff = 200):
-        # Where emgData is a dataframe with 2 columns: [Epoch, ECG column of PSG]
+    def __init__(self, emgData, filterOrder = 10, hpCutoff = 30, lpCutoff = 200, signalType = "EMG1-EMG2"):
+        # Where emgData is a dataframe with 3 columns: [Elapsed_seconds, Epoch, ECG column of PSG]
         self.emgData = emgData
-        self.rawEmg = np.array(emgData.loc[:, "EMG1-EMG2"])
+        self.signalType = signalType
+        self.rawEmg = np.array(emgData.loc[:, self.signalType])
         self.length = len(self.rawEmg)
-        self.samplingRate = 500
+        self.samplingRate = 512
 
         # Filter the signal:
         filterOrder = 10
         hpCutoff = 30
         lpCutoff = 200
-        samplingRate = 500
+        samplingRate = self.samplingRate
         sosBandpass = signal.butter(filterOrder, (hpCutoff, lpCutoff), btype = "bandpass", fs = samplingRate, output = "sos")
         filteredEmg = signal.sosfilt(sosBandpass, self.rawEmg)
         self.emgData['filtered'] = filteredEmg
@@ -45,11 +46,11 @@ class EMG:
         if filtered:
             return emgDf["filtered"]
         else:
-            return emgDf["EMG1-EMG2"]
+            return emgDf[self.signalType]
 
     def getRawDataByTime(self, startTime, range, filtered = True):
-        startTime = startTime * 500 # startTime * samplingRate to convert from desired second to desired sample
-        range = range * 500 # Multiply by sampling rate to get number of datapoints 
+        startTime = startTime * self.samplingRate # startTime * samplingRate to convert from desired second to desired sample
+        range = range * self.samplingRate # Multiply by sampling rate to get number of datapoints 
         endTime = startTime + range
 
         # Get EMG dataframe at specified time:
@@ -57,7 +58,7 @@ class EMG:
         if filtered:
             return emgDf["filtered"]
         else:
-            return emgDf["EMG1-EMG2"]
+            return emgDf[self.signalType]
     
     def emgEnergy(self, window = 30, windowStep = 1):
         if window == 30: # Get energy for each epoch
@@ -75,7 +76,6 @@ class EMG:
             #windowCount = (self.length / windowStepSize) - 2 * int(window/2)
                 # Subtract 1 window because the first half of the first window will not get a window
                 # and the second half of the last window will not get a window (because beyond ends of array)
-            print(self.length)
             indexer = np.arange(windowSizeIndices)[None, :] + np.arange(0, windowCount, windowStepSize)[:, None]
             indexer = indexer.astype(int)
 
@@ -87,7 +87,6 @@ class EMG:
             leadValues = np.ones(int(window/2)) * energyByWindow[0] # Set leading values to value of first complete window
             trailingValues = np.ones(int(window/2)) * energyByWindow[-1] # Set trailing values to value of last complete window
             energyByWindow = np.concatenate([leadValues, energyByWindow, trailingValues])
-            print(len(energyByWindow))
             return energyByWindow
 
     def getNHighestSeconds(self, n, window):
@@ -117,8 +116,10 @@ class EMG:
         
         # Epochs:
         epochs = np.concatenate([startEpochArray, intermediateEpochs, endEpochArray])
-        print(len(epochs))
-        print(len(energyByWindow))
+        
+        if len(energyByWindow) - len(epochs) == 1:
+            epochs = np.append(epochs, [endEpoch])
+            print("Warning: EMG energy and epochs may be off by 1")
 
         # Create dataframe: [epoch, energyByWindow]
         windowEnergyByEpoch = pd.DataFrame(epochs, columns = ['epoch'])
@@ -150,7 +151,6 @@ class EMG:
         endEpoch = int(reindexedEmg['epoch'].iloc[-1])
 
         metricsDf = pd.DataFrame(range(startingEpoch, endEpoch), columns = ["epoch"])
-        print(metricsDf)
 
         if "epochEnergy" in metrics:
             epochEnergy = self.emgEnergy()
