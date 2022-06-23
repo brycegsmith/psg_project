@@ -47,7 +47,7 @@ class ECG:
         endTime = startTime + range
         return self.ecgData.loc[startTime:endTime, :]
 
-    def getMetrics(self, metrics = ["bpm", "rmssd", "lf", "hf", "lf/hf"]):
+    def getMetrics(self, metrics = ["bpm", "rmssd", "lf", "hf", "lf/hf"], normalized = True):
         # Metrics is a list of metrics to access
         # Returns a dataframe with format [epoch, metric1, metric2, etc]
 
@@ -65,10 +65,21 @@ class ECG:
                 epochs = range(startEpoch, startEpoch + epochCount, 1)
                 metricsDf = pd.DataFrame(epochs, columns = ["epoch"])
                 metricsDf = metricsDf.join(thisMetricDf)
+
+                if normalized:
+                    thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
+                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm"])
+                    metricsDf = metricsDf.join(thisMetricDfNorm)
+
                 initializeEpochColumn = False
             else:
                 thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric])
                 metricsDf = metricsDf.join(thisMetricDf)
+
+                if normalized:
+                    thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
+                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm"])
+                    metricsDf = metricsDf.join(thisMetricDfNorm)
 
         return metricsDf
 
