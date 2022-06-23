@@ -49,7 +49,7 @@ class PSG:
         first_timestamp = datetime.datetime(study_start_year, study_start_month, first_recording_day,
                                             int(timestamp_comps[0]), int(timestamp_comps[1]), int(timestamp_comps[2]))
         study_start = datetime.datetime(study_start_year, study_start_month, study_start_day, study_start_hour, study_start_min, study_start_second)
-        lag = 500*(first_timestamp - study_start).seconds
+        lag = 512*(first_timestamp - study_start).seconds
 
         # Adds epochs and features:
         df2['epoch']=[i for i in range(0,len(df2.iloc[:,0]))]
@@ -74,7 +74,7 @@ class PSG:
         D = F.transpose()
         df = pd.DataFrame(D)
         df.columns= signal
-        df['elapsed_seconds'] = [0.002*i for i in range(0, len(df.iloc[:,0]))]
+        df['elapsed_seconds'] = [(1/512)*i for i in range(0, len(df.iloc[:,0]))]
         df['epoch'] = df['elapsed_seconds'] // 30
         df=df[['epoch', 'elapsed_seconds', 'Fp2-F4', 'F4-C4', 'C4-P4', 'P4-O2','C4-A1','ROC-LOC','EMG1-EMG2','ECG1-ECG2','DX1-DX2','SX1-SX2', 'SAO2']]
 
