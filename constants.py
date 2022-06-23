@@ -28,4 +28,4 @@ startTimes = {
 }
 
 # FREQUENCY
-FREQUENCY = 500
+FREQUENCY = 512
