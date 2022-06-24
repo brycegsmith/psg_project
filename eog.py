@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from scipy import signal as sig
+from scipy import signal as sig, integrate
 
 class EOG:
 
@@ -25,11 +25,12 @@ class EOG:
 
         # Energy Content Band using Power Spectrum
         ECB = []
-        for i in range(0, self.rawEOG['epoch'].nunique()):
+        for i in range(0, self.rawEOG['epoch'].nunique() - 1):
             focus = self.rawEOG[self.rawEOG['epoch'] == i]
-            f, ps = np.array(sig.welch(focus['ROC-LOC'], nperseg = 2048, scaling='spectrum', fs=512))
-            bandenergy = ps[(f >= 0.35) & (f <= 0.5)].sum()
+            f, ps = sig.welch(focus['ROC-LOC'], nperseg = 1048576, scaling='spectrum', fs=512)
+            bandenergy = integrate.simps(ps[(f >= 0.35) & (f <= 0.5)])
             ECB.append(bandenergy)
+        ECB.append(0)
 
         # Data Assembly
         final_EOG = pd.concat([pd.Series([i for i in range(0, len(EOG_PAV))]), EOG_PAV, EOG_VAV, EOG_STD, EOG_AUC], axis=1)
