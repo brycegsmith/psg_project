@@ -7,13 +7,13 @@ import numpy as np
 
 class ECG:
 
-    def __init__(self, ecgData, windowSize = 240):
+    def __init__(self, ecgData, windowSize = 240, signalType = 'ECG1-ECG2'):
         # Where ecgData is a dataframe with 2 columns: [Epoch, ECG column of PSG]
         # windowSize is window duration in seconds
 
         self.ecgData = ecgData
         self.lastEpoch = ecgData['epoch'].max()
-
+        self.signalType = signalType
         self.windowSizeSec = windowSize
 
         # Constants:
@@ -21,7 +21,10 @@ class ECG:
         windowStepSec = 30 # Length of epoch
 
         
-        rawEcg = np.array(ecgData["ECG1-ECG2"])
+        if self.signalType == 'ECG1-ECG2':
+            rawEcg = np.array(ecgData["ECG1-ECG2"])
+        elif self.signalType == 'PLETH':
+            rawEcg = np.array(ecgData["PLETH"])
         windowOverlap = (windowSize - windowStepSec)/windowSize
         workingData, measures = hp.process_segmentwise( # Find heart beats and calculate heart rate metrics
             rawEcg, 
@@ -46,12 +49,12 @@ class ECG:
         endTime = startTime + range
         return self.ecgData.loc[startTime:endTime, :]
 
-    def getMetrics(self, metrics = ["bpm", "rmssd", "lf", "hf", "lf/hf"], normalized = True):
+    def getMetrics(self, metrics = ["bpm", "rmssd", "lf", "hf", "lf/hf", "breathingrate"], normalized = True):
         # Metrics is a list of metrics to access
         # Returns a dataframe with format [epoch, metric1, metric2, etc]
 
         # Metric options:
-        # bpm, ibi, sdnn, sdsd, rmssd, pnn50, pnn20, mad, lf, hf, lf/hf
+        # bpm, ibi, sdnn, sdsd, rmssd, pnn50, pnn20, mad, lf, hf, lf/hf, breathingrate
 
         startEpoch = int(self.ecgData['epoch'].min())
         initializeEpochColumn = True

@@ -76,7 +76,7 @@ class PSG:
         df.columns= signal
         df['elapsed_seconds'] = [(1/512)*i for i in range(0, len(df.iloc[:,0]))]
         df['epoch'] = df['elapsed_seconds'] // 30
-        df=df[['epoch', 'elapsed_seconds', 'Fp2-F4', 'F4-C4', 'C4-P4', 'P4-O2','C4-A1','ROC-LOC','EMG1-EMG2','ECG1-ECG2','DX1-DX2','SX1-SX2', 'SAO2']]
+        df=df[['epoch', 'elapsed_seconds', 'Fp2-F4', 'F4-C4', 'C4-P4', 'P4-O2','C4-A1','ROC-LOC','EMG1-EMG2','ECG1-ECG2','DX1-DX2','SX1-SX2', 'PLETH', 'SAO2']]
 
 
         self.txtData = df2
