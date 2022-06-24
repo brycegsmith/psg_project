@@ -62,25 +62,25 @@ class ECG:
 
         for metric in metrics:
             if initializeEpochColumn:
-                thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric])
-                epochCount = thisMetricDf[metric].size
+                thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric + "_" + self.signalType])
+                epochCount = thisMetricDf[metric + "_" + self.signalType].size
                 epochs = range(startEpoch, startEpoch + epochCount, 1)
                 metricsDf = pd.DataFrame(epochs, columns = ["epoch"])
                 metricsDf = metricsDf.join(thisMetricDf)
 
                 if normalized:
                     thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
-                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm"])
+                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm" + "_" + self.signalType])
                     metricsDf = metricsDf.join(thisMetricDfNorm)
 
                 initializeEpochColumn = False
             else:
-                thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric])
+                thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric + "_" + self.signalType])
                 metricsDf = metricsDf.join(thisMetricDf)
 
                 if normalized:
                     thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
-                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm"])
+                    thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm" + "_" + self.signalType])
                     metricsDf = metricsDf.join(thisMetricDfNorm)
 
         return metricsDf
