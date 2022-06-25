@@ -128,6 +128,102 @@ startTimes = {
         "study_start_hour": 22,
         "study_start_min": 7,
         "study_start_second": 22
+    },
+    "plm10": {
+        "study_start_year": 2011,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 41,
+        "study_start_second": 46
+    },
+    "plm1": {
+        "study_start_year": 2010,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 21,
+        "study_start_min": 58,
+        "study_start_second": 23
+    },
+    "plm2": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 28,
+        "study_start_second": 47
+    },
+    "plm3": {
+        "study_start_year": 2011,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 57,
+        "study_start_second": 41
+    },
+    "plm5": {
+        "study_start_year": 2009,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 20,
+        "study_start_min": 16,
+        "study_start_second": 16
+    },
+    "plm6": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 18,
+        "study_start_min": 28,
+        "study_start_second": 17
+    },
+    "rbd10": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 9,
+        "study_start_second": 22
+    },
+    "rbd11": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 9,
+        "study_start_second": 22
+    },
+    "rbd12": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 21,
+        "study_start_min": 52,
+        "study_start_second": 54
+    },
+    "rbd13": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 19,
+        "study_start_second": 6
+    },
+    "rbd16": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 15,
+        "study_start_second": 16
+    },
+    "rbd17": {
+        "study_start_year": 2009,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 21,
+        "study_start_min": 54,
+        "study_start_second": 31
     }
 }
 
