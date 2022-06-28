@@ -13,6 +13,7 @@ from scipy import signal
 from scipy.integrate import simps
 import seaborn as sns
 from matplotlib import pyplot as plt
+import antropy as ant
 
 
 class EEG:
@@ -28,20 +29,17 @@ class EEG:
         """
 
         # Build dataframe of EEG data
-        eeg_columns_time = ["epoch", "elapsed_seconds"]
-        eeg_columns = eeg_columns_time
+        eeg_columns = ["epoch", "elapsed_seconds"]
         for column in list(psg_df.columns):
             if column in constants.EEG_COLUMNS:
                 eeg_columns.append(column)
         self.eeg_data = psg_df.loc[:, eeg_columns]
 
-        # Create dataframe to store features
-        self.eeg_features = pd.DataFrame({"epoch": self.eeg_data["epoch"].unique()})
-
-        # Populate features
-        for column in eeg_columns:
-            if column not in eeg_columns_time:
-                print(column)
+        # Preprocess data
+        for i in range(2, self.eeg_data.shape[1]):
+            column = self.eeg_data.columns.values.tolist()[i]
+            channel_vector = self.eeg_data.loc[:, column].values
+            self.eeg_data[column] = self.preprocess(channel_vector)
 
     def get_eeg_dataframe_by_epoch(self, epoch):
         """
@@ -116,6 +114,58 @@ class EEG:
         eeg_vector_preprocessed = eeg_vector
         return eeg_vector_preprocessed
 
+    def extract_features(self):
+        """
+        Perform feature extraction on EEG object.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
+        # Get channel columns
+        eeg_channels = self.eeg_data.columns.values.tolist()
+        eeg_channels.remove("epoch")
+        eeg_channels.remove("elapsed_seconds")
+
+        # Create dataframe to store features
+        self.eeg_features = pd.DataFrame({"epoch": self.eeg_data["epoch"].unique()})
+        self.eeg_features["beta_relative_power"] = np.nan
+        self.eeg_features["alpha_relative_power"] = np.nan
+        self.eeg_features["theta_relative_power"] = np.nan
+        self.eeg_features["delta_relative_power"] = np.nan
+        self.eeg_features["perm_entropy"] = np.nan
+        self.eeg_features["spectral_entropy"] = np.nan
+        self.eeg_features["svd_entropy"] = np.nan
+        self.eeg_features["approx_entropy"] = np.nan
+        self.eeg_features["sample_entropy"] = np.nan
+        self.eeg_features["petrosian"] = np.nan
+        self.eeg_features["katz"] = np.nan
+        self.eeg_features["higuchi"] = np.nan
+        self.eeg_features["dfa"] = np.nan
+
+        # Populate features
+        for epoch in self.eeg_data["epoch"].unique():
+            # Relative Powers
+            rps, _ = self.relative_psd_power_avg(epoch, eeg_channels)
+            self.eeg_features.at[epoch, "beta_relative_power"] = rps[0]
+            self.eeg_features.at[epoch, "alpha_relative_power"] = rps[1]
+            self.eeg_features.at[epoch, "theta_relative_power"] = rps[2]
+            self.eeg_features.at[epoch, "delta_relative_power"] = rps[3]
+
+            # Antropy Metrics
+            antropy, _ = self.antropy_metrics_avg(epoch, eeg_channels)
+            self.eeg_features.at[epoch, "perm_entropy"] = antropy[0]
+            self.eeg_features.at[epoch, "spectral_entropy"] = antropy[1]
+            self.eeg_features.at[epoch, "svd_entropy"] = antropy[2]
+            self.eeg_features.at[epoch, "approx_entropy"] = antropy[3]
+            self.eeg_features.at[epoch, "sample_entropy"] = antropy[4]
+            self.eeg_features.at[epoch, "petrosian"] = antropy[5]
+            self.eeg_features.at[epoch, "katz"] = antropy[6]
+            self.eeg_features.at[epoch, "higuchi"] = antropy[7]
+            self.eeg_features.at[epoch, "dfa"] = antropy[8]
+
     def plot_eeg(self, eeg_vector):
         """
         Plot processed EEG data. Vector must have sampling frequency of 500.
@@ -184,7 +234,7 @@ class EEG:
             eeg_vector (array): 1D array of EEG processed data
 
         Returns:
-            None
+            relative_powers (list): [beta_rp, alpha_rp, theta_rp, delta_rp]
         """
 
         # Window size to capture minium frequency (4 seconds)
@@ -204,6 +254,9 @@ class EEG:
         # Total Power
         total_power = simps(psd, dx=freq_res)
 
+        # Relative Power List
+        relative_powers = []
+
         for i in range(len(wave_names)):
             # Define low and high wave frequency cutoffs
             low = wave_freqs[i][0]
@@ -217,4 +270,152 @@ class EEG:
 
             # Relative delta power (expressed as a percentage of total power)
             rel_power = power / total_power
-            print(wave_names[i] + " Relative power: %.3f" % rel_power)
+            relative_powers.append(rel_power)
+
+        return relative_powers
+
+    def relative_psd_power_avg(self, epoch, eeg_channels):
+        """
+        Calculate relative power for each brain wave using non-log transformed Welch
+        power spectral density (PSD) for a single epoch and AVERAGE ACROSS CHANNELS.
+
+        See here for more info: https://raphaelvallat.com/bandpower.html
+
+        Brain Waves
+            Beta: 12-30 Hz
+            Alpha: 8-12 Hz
+            Theta: 4-8 Hz
+            Delta: 0.5-4 Hz
+
+        Parameters:
+            epoch (int): epoch to average data
+            eeg_channels (list of strs): list of channels to average data across
+
+        Returns:
+            average_relative_powers (np.array): 1D vector of averaged relative powers
+            channel_relative_powers (np.array): matrix of channel's relative powers
+
+            Both ordered by beta_rp, alpha_rp, theta_rp, delta_rp
+        """
+
+        channel_relative_powers = np.zeros((len(eeg_channels), 4))
+
+        # Populate features
+        for i in range(len(eeg_channels)):
+            # Get channel
+            channel = eeg_channels[i]
+
+            # Get vector
+            eeg_vector = self.get_eeg_vector_epoch(epoch, channel)
+
+            # Calculate relative powers
+            rps = self.relative_psd_power(eeg_vector)
+            channel_relative_powers[i, :] = rps
+
+            # Average across channels
+            average_relative_powers = np.mean(channel_relative_powers, axis=0)
+
+        return average_relative_powers, channel_relative_powers
+
+    def antropy_metrics(self, eeg_vector):
+        """
+        Calculate all metrics associated eith Raphael Vallat's antropy library.
+
+        See here for more info:  https://raphaelvallat.com/antropy/build/html/index.html
+
+        Parameters:
+            eeg_vector (array): 1D array of EEG processed data
+
+        Returns:
+            antropy_features (list): list of antropy features in order below
+                * Permutation Entropy
+                * Spectral Entropy
+                * Singular Value Decomposition Entropy
+                * Approximate Entropy
+                * Sample Entropy
+                * Petrosian Fractal Dimension
+                * Katz Fractal Dimension
+                * Higuchi Fractal Dimension
+                * Derended Fluctuation Analysis
+        """
+
+        # Initialize list
+        antropy_features = []
+
+        # Permutation Entropy
+        antropy_features.append(ant.perm_entropy(eeg_vector, normalize=True))
+
+        # Spectral Entropy
+        sf = constants.FREQUENCY
+        antropy_features.append(
+            ant.spectral_entropy(eeg_vector, sf=sf, method="welch", normalize=True)
+        )
+
+        # Singular Value Decomposition Entropy
+        antropy_features.append(ant.svd_entropy(eeg_vector, normalize=True))
+
+        # Approximate Entropy
+        antropy_features.append(ant.app_entropy(eeg_vector))
+
+        # Sample Entropy
+        antropy_features.append(ant.sample_entropy(eeg_vector))
+
+        # Petrosian Fractal Dimension
+        antropy_features.append(ant.petrosian_fd(eeg_vector))
+
+        # Katz Fractal Dimension
+        antropy_features.append(ant.katz_fd(eeg_vector))
+
+        # Higuchi Fractal Dimension
+        antropy_features.append(ant.higuchi_fd(eeg_vector))
+
+        # Derended Fluctuation Analysis
+        antropy_features.append(ant.detrended_fluctuation(eeg_vector))
+
+        return antropy_features
+
+    def antropy_metrics_avg(self, epoch, eeg_channels):
+        """
+        Calculate all metrics associated eith Raphael Vallat's antropy library for a
+        single epoch and AVERAGE ACROSS CHANNELS.
+
+        See here for more info:  https://raphaelvallat.com/antropy/build/html/index.html
+
+        Parameters:
+            epoch (int): epoch to average data
+            eeg_channels (list of strs): list of channels to average data across
+
+        Returns:
+            average_antropy_metrics (np.array): 1D vector of averaged antropy metrics
+            channel_antropy_metrics (np.array): matrix of antropy metrics
+
+            Antropy Features Ordered By:
+                * Permutation Entropy
+                * Spectral Entropy
+                * Singular Value Decomposition Entropy
+                * Approximate Entropy
+                * Sample Entropy
+                * Petrosian Fractal Dimension
+                * Katz Fractal Dimension
+                * Higuchi Fractal Dimension
+                * Derended Fluctuation Analysis
+        """
+
+        channel_antropy_metrics = np.zeros((len(eeg_channels), 9))
+
+        # Populate features
+        for i in range(len(eeg_channels)):
+            # Get channel
+            channel = eeg_channels[i]
+
+            # Get vector
+            eeg_vector = self.get_eeg_vector_epoch(epoch, channel)
+
+            # Calculate relative powers
+            antropy_metrics = self.antropy_metrics(eeg_vector)
+            channel_antropy_metrics[i, :] = antropy_metrics
+
+            # Average across channels
+            average_antropy_metrics = np.mean(channel_antropy_metrics, axis=0)
+
+        return average_antropy_metrics, channel_antropy_metrics
