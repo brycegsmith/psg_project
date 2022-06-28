@@ -28,7 +28,8 @@ class EEG:
         """
 
         # Build dataframe of EEG data
-        eeg_columns = ["epoch", "elapsed_seconds"]
+        eeg_columns_time = ["epoch", "elapsed_seconds"]
+        eeg_columns = eeg_columns_time
         for column in list(psg_df.columns):
             if column in constants.EEG_COLUMNS:
                 eeg_columns.append(column)
@@ -38,6 +39,9 @@ class EEG:
         self.eeg_features = pd.DataFrame({"epoch": self.eeg_data["epoch"].unique()})
 
         # Populate features
+        for column in eeg_columns:
+            if column not in eeg_columns_time:
+                print(column)
 
     def get_eeg_dataframe_by_epoch(self, epoch):
         """
