@@ -5,6 +5,60 @@ import heartpy as hp
 import pandas as pd
 import numpy as np
 
+def removeNaN(dataframe):
+    NaN_df = dataframe[dataframe.iloc[:,0].isna()]
+    repaired = dataframe.copy()
+    length = dataframe.shape[0]
+
+    for i in list(NaN_df.index):
+        pointsAbove = []
+        pointsBelow = []
+        pointsAboveCount = 0
+        pointsBelowCount = 0
+        minHalfWindow = 2
+        includePointsAbove = True
+        includePointsBelow = True
+        searchDist = 1 # Start looking 1 above and 1 below
+        while pointsAboveCount < minHalfWindow or pointsBelowCount < minHalfWindow:
+            # Search up:
+            if i - searchDist > 0:
+                thisPointAbove = dataframe.iloc[i - searchDist, 0]
+                if not np.isnan(thisPointAbove):
+                    pointsAbove.append(thisPointAbove)
+                    pointsAboveCount += 1
+                    
+            else:
+                pointsAboveCount = minHalfWindow # So loop continues
+                includePointsAbove = False
+
+            # Search down:
+            if i + searchDist < length:
+                thisPointBelow = dataframe.iloc[i + searchDist, 0]
+                if not np.isnan(thisPointBelow):
+                    pointsBelow.append(thisPointBelow)
+                    pointsBelowCount += 1
+                    
+            else:
+                pointsBelowCount = minHalfWindow # So loop continues
+                includePointsBelow = False
+
+            searchDist += 1
+        
+        # Calculate average:
+        if includePointsBelow and includePointsAbove:
+            average = (sum(pointsAbove) + sum(pointsBelow)) / (sum([len(pointsBelow), len(pointsAbove)]))
+        elif includePointsBelow:
+            average = sum(pointsBelow) / len(pointsBelow)
+        elif includePointsAbove:
+            average = sum(pointsAbove) / len(pointsAbove)
+        else:
+            average = 0
+        
+        repaired.iloc[i, 0] = average
+    
+    return repaired
+
+
 class ECG:
 
     def __init__(self, ecgData, windowSize = 240, signalType = 'ECG1-ECG2'):
@@ -63,54 +117,30 @@ class ECG:
         for metric in metrics:
             if initializeEpochColumn:
                 thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric + "_" + self.signalType])
+                # Repair NaN's:
+                thisMetricDf = removeNaN(thisMetricDf)
+
                 epochCount = thisMetricDf[metric + "_" + self.signalType].size
                 epochs = range(startEpoch, startEpoch + epochCount, 1)
                 metricsDf = pd.DataFrame(epochs, columns = ["epoch"])
                 metricsDf = metricsDf.join(thisMetricDf)
 
                 if normalized:
-                    thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
+                    thisMetricNorm = thisMetricDf.iloc[:,0].to_numpy() / np.mean(thisMetricDf.iloc[:,0].to_numpy())
                     thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm" + "_" + self.signalType])
                     metricsDf = metricsDf.join(thisMetricDfNorm)
 
                 initializeEpochColumn = False
             else:
                 thisMetricDf = pd.DataFrame(self.measures[metric], columns = [metric + "_" + self.signalType])
+                # Repair NaN's:
+                thisMetricDf = removeNaN(thisMetricDf)
+
                 metricsDf = metricsDf.join(thisMetricDf)
 
                 if normalized:
-                    thisMetricNorm = self.measures[metric] / np.mean(self.measures[metric])
+                    thisMetricNorm = thisMetricDf.iloc[:,0].to_numpy() / np.mean(thisMetricDf.iloc[:,0].to_numpy())
                     thisMetricDfNorm = pd.DataFrame(thisMetricNorm, columns = [metric + "_norm" + "_" + self.signalType])
                     metricsDf = metricsDf.join(thisMetricDfNorm)
 
         return metricsDf
-
-
-
-    #def getBeats(self): # Find R waves of ECG signal
-        # Return a dataframe: [timeOfBeat, amplitudeOfBeat/averageAmplitudeOfBeat]
-        # pass
-
-    #def heartRate(self, startTime=0, duration=0):
-        #if startTime == 0 and duration == 0: 
-            # Go through entire dataset and calculate Average HR for every epoch
-        # Call getBeats
-        # Return a dataframe: [epoch number, instantaneoustimestamp heart rate]
-
-
-    #def rri(self, startTime = 0, duration = 0):
-        # R-R intervals
-        # Should probably normalize to average over entire dataset
-    
-    #def lf(self, startTime = 0, duration = 0):
-        #if startTime == 0 and duration == 0: 
-            # Go through entire dataset and calculate Average LF power for every epoch
-        # Call getBeats
-        # Return a dataframe: [timestamp, lf power]
-        # Should probably normalize to average over entire dataset
-
-    #def hf(self, startTime = 0, duration = 0):
-        #pass
-
-    #def rmssd(self, startTime = 0, duration = 0):
-        #pass
