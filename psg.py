@@ -90,6 +90,8 @@ class PSG:
         # Defines list of signals in edf
         signal = edf.ch_names
         signal = ["DX1-DX2" if x == "Dx1-DX2" else x for x in signal]
+        signal = ["DX1-DX2" if x == "TIB Dx" else x for x in signal]
+        signal = ["SX1-SX2" if x == "TIB Sx" else x for x in signal]
         signal = ["SAO2" if x == "SpO2" else x for x in signal]
         signal = ["Fp2-F4" if x == "F2-F4" else x for x in signal]
         signal = ["PLETH" if x == "Pleth" else x for x in signal]
