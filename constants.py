@@ -263,3 +263,15 @@ EEG_COLUMNS = [
     "LOC-A1",
     "ROC-A2",
 ]
+
+# SLEEP_STAGES (diCtionary mapping sleep stage to ordinal number)
+SLEEP_STAGES = {"W": 0, "S1": 1, "S2": 2, "S3": 3, "S4": 4, "R": 5}
+
+# CONDITION_TO_BINARY (dictionary for dummy encoding of conditions analyzed)
+CONDITION_TO_BINARY = {
+    "Normal": [0, 0, 0],
+    "Nocturnal Frontal Lobe Epilepsy": [0, 0, 1],
+    "Insomnia": [0, 1, 0],
+    "Periodic Leg Movement": [0, 1, 1],
+    "REM Behavior Disorder": [1, 0, 0],
+}
