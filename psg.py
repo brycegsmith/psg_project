@@ -92,6 +92,7 @@ class PSG:
         signal = ["DX1-DX2" if x == "Dx1-DX2" else x for x in signal]
         signal = ["SAO2" if x == "SpO2" else x for x in signal]
         signal = ["Fp2-F4" if x == "F2-F4" else x for x in signal]
+        signal = ["PLETH" if x == "Pleth" else x for x in signal]
 
         # Adds epochs and defines column names based on signals
         D = F.transpose()
