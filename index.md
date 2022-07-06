@@ -38,16 +38,22 @@ Feature extraction methods for each type of signal from the PSG data are describ
 
 #### Feature Selection
 * __Correlation Method__: Correlated features were detected and removed using the method proposed by Kuhn and Johnson. This method involves first calculating a correlation matrix for the data. Then, correlations are assessed pairwise. For any pair of features with a correlation above a set threshold (0.8 was used here), the feature in this pair with the larger average correlation between itself and every other feature was removed. This method eliminated 13 features.
+<img src="correlation_matrix.png" width="450" height="450">
+
 * __Mutual Information Method__: Once we reduced our feature space to those under the average correlation threshold, we calculated the normalized mutual information between each feature and the sleep stages (target values) and defined four feature sets: the top 5, 10, 20, and 30 features with the greatest normalized mutual information values. As of this point, only the top 5 and top 10 sets have been evaluated through unsupervised learning, but we may incorporate use of the other two sets as we move into supervised learning.
 
 #### Dimensionality Reduction
 After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE).  Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature steps (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components.
+<img src="dimensionality_reduction.png" width="450" height="450">
 
 #### Unsupervised Learning
 Following dimensionality reduction, we applied several unsupervised learning methods to our data, including K-means, GMM, and DBSCAN. To determine the quality of our clustering, we used external measures like homogeneity, F1 score, normalized mutual information, Rand Statistic, and Fowlkes-Mallows measure. The sleep stages were taken as the “ground-truth” assignments, and each cluster was assigned a sleep stage based on the sleep stage of the majority of points in that cluster. We defined the “predicted” label of a point as the sleep stage of the cluster that it was assigned to.
 * __K-Means__: As one of the unsupervised learning procedures that we attempted, we applied K-Means on our data set via the sklearn package.  As K-Means is notoriously sensitive to outliers, we expected suboptimal results. Thus, we explored similar methods to K-Means such as K-Medians and K-Medoids which are both more resistant to outliers. We chose to do both K-means and K-Medoids. K-Means gave us baseline behavior while K-Medoids was chosen as it was the most outlier resistant of the three due to the nature of cluster center selection. We utilized the elbow method and found that 3 clusters was optimal for both procedures. Both graphs appeared identical. It should be noted that 5 clusters is optimal to our data set as it will represent all stages of sleep. During the implementation of our models, we ran the models on both 3 and 5 clusters. The 5 cluster models consistently gave better performances by all metrics.
+<img src="kmeans_plot.png" width="450" height="300">
+
 * __GMM__: PLACEHOLDER FOR RESULTS
 * __DBSCAN__: DBSCAN was applied using the implementation in the sklearn package. The critical parameters to set for the algorithm are epsilon, or the maximum radius of a neighborhood around a point, and MinPts, the minimum number of points required to be in a point’s epsilon neighborhood for that point to be considered a core point. The starting value of MinPts was determined based on the dimensionality of the data being clustered, using the rule of thumb that in noisy datasets, a MinPts = 2xD is often appropriate. Epsilon was calculated using the distance to the 4 nearest neighbors of each point. These distances were sorted and plotted, yielding a graph that shows a flat region followed by a sharp increase in distance to outliers. A starting value of epsilon was selected as a value in the flat region of this graph, and it was adjusted further by steps of 0.1  to increase the clustering metrics.
+<img src="dbscan_plot.png" width="450" height="300">
 
 ### Results
 #### Feature Engineering & Dimensionality Reduction
