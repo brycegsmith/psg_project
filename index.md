@@ -44,6 +44,7 @@ Feature extraction methods for each type of signal from the PSG data are describ
 
 #### Dimensionality Reduction
 After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE).  Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature steps (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components.
+
 <img src="dimensionality_reduction.png" width="450" height="450">
 
 #### Unsupervised Learning
