@@ -74,34 +74,43 @@ Following dimensionality reduction, we applied several unsupervised learning met
 #### Feature Engineering & Selection
 The feature engineering and selection process discussed in the Methodology section was followed. As discussed, we selected the top 5, 10, 20, and 30 features and consider these sets separate for dimensionality reduction & unsupervised learning tasks. As an example, the image of the confusion matrix below shows the original 37 features (left) being reduced to a set of the 30 features with the lowest correlation and highest mutual information (right).
 
+* _Figure 1: Feature Space Before and After Eliminating Highly Correlated Features_
+
 <img src="https://brycegsmith.github.io/psg_project/images/before_after_reduction.png" width="700" height="325">
 
-Below is a chart with the remaining features sorted by normalized mutual information.
+* _Figure 2: Remaining Features Sorted by Normalized Mutual Information Values_
 
 <img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="575">
 
 #### Dimensionality Reduction
 Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
 
+* _Figure 3: PCA Results_
+
 <img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
+
+* _Figure 4: TSNE Results_
 
 <img src="https://brycegsmith.github.io/psg_project/images/tsne_results.png" width="575" height="600">
 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
-* _K-Means Best Outcome_
+
+* _Figure 5: K-Means Best Outcome_
 
 <img src="https://brycegsmith.github.io/psg_project/images/best_kmeans.png" width="550" height="250">
 
-* _GMM Best Outcome_
+* _Figure 6: GMM Best Outcome_
 
 <img src="https://brycegsmith.github.io/psg_project/images/best_gmm.png" width="550" height="250">
 
-* _DBSCAN Best Outcome_
+* _Figure 7: DBSCAN Best Outcome_
 
 <img src="https://brycegsmith.github.io/psg_project/images/best_dbscan.png" width="575" height="600">
 
 The external quality measures for the best result of each algorithm are provided in the bar plot below.
+
+* _Figure 8: Comparison of Performance for Each Clustering Algorithm_
 
 PLACEHOLDER FOR BARPLOT
 
@@ -125,9 +134,9 @@ We also implemented TSNE, as the algorithm better accounts for nonlinear relatio
 #### Unsupervised Learning
 For the purposes of this project, since we are looking at the accuracy of predicting sleep stage, supervised metrics using target values as “ground truth” is the most logical method of evaluating the quality of our clustering. The use of internal measures is not useful unless each cluster clearly corresponds to a distinct sleep stage, which is not the case.
 
-The bar chart comparing external metrics between unsupervised learning approaches provides insight into algorithm performance. All of the metrics shown in the chart range from 0 to 1, with higher values indicating better clustering performance. Since the metrics for DBSCAN are all greater than for K-Means, we can conclude that our best DBSCAN outcome seems to be a better clustering for our data than our best K-Means outcome. However, there seems to be a positive correlation between each metric value for K-Means and DBSCAN; the metrics that have higher values for one algorithm tend to have higher values for the other. For both algorithms, the metric with the highest value is Rand-Stat and the metric with the lowest value is Homogeneity.
+The bar chart comparing external metrics between unsupervised learning approaches provides insight into algorithm performance. All of the metrics shown in the chart range from 0 to 1, with higher values indicating better clustering performance. The results from K-Means and GMM are extremely close, with K-Means performing slightly better in all metrics with the exception of the Rand-Stat. Since the metrics for DBSCAN are all greater than for K-Means and GMM, we can conclude that our best DBSCAN outcome seems to be the best clustering for our data. However, there seems to be a positive correlation between each metric value for the different algorithms; the metrics that have higher values for one algorithm tend to have higher values for the other. For all three algorithms, the metric with the highest value is Rand-Stat and the metric with the lowest value is Homogeneity.
 
-All of our clustering algorithms run into issues due to the tight distribution of points in reduced dimensionality. The reduced dimensionality from both PCA and TNSE looks very compact, with a lot of overlap between points corresponding to different sleep stages. As mentioned earlier, periodic outliers are common in our data. This may explain the fact that K-means had the poorest performance since it is especially sensitive to outliers. The sleep stage clusters appear to have highly irregular shapes, which is difficult for K-means to categorize.
+All of our clustering algorithms run into issues due to the tight distribution of points in reduced dimensionality. The reduced dimensionality from both PCA and TNSE looks very compact, with a lot of overlap between points corresponding to different sleep stages. As mentioned earlier, periodic outliers are common in our data. This may explain why K-means did not perform very well since it is especially sensitive to outliers. The sleep stage clusters appear to have highly irregular shapes, which is difficult for both K-means and GMM to categorize.
 
 Due to the irregularly shaped clusters resulting from the TSNE dimensionality reduction, DBSCAN was the most suitable clustering algorithm to apply to the TSNE dimensions. The best results were achieved by applying DBSCAN to a three-dimensional TSNE dimensionality reduction. Although relatively high values were achieved for the clustering metrics, especially the Rand Stat (0.74), Fowlkes-Mallows (0.53), and F1 measures (0.66), these results were only achieved by setting a low enough epsilon that all of the small clusters in the TSNE feature space could be captured as unique clusters by the DBSCAN algorithm. This helps with the purity and accuracy of each cluster, but the downside is an uninterpretable cluster assignment of ten clusters to describe only five sleep stages. This clustering results will therefore have poor generalizability to other datasets, and would require knowing the target values in order to interpret the large number of clusters as capturing one sleep stage or another, ultimately defeating the purpose of this being an unsupervised method that could be meaningfully applied without have access to the data labels.
 
