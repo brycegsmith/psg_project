@@ -82,7 +82,7 @@ Again, the dimensionality reduction process using PCA and TSNE described in the 
 
 <img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
 
-<img src="https://brycegsmith.github.io/psg_project/images/tsne.png" width="575" height="600">
+<img src="https://brycegsmith.github.io/psg_project/images/tsne_results.png" width="575" height="600">
 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
