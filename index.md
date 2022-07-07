@@ -62,23 +62,23 @@ Following dimensionality reduction, we applied several unsupervised learning met
 #### Feature Engineering & Selection
 The feature engineering and selection process discussed in the Methodology section was followed. As discussed, we selected the top 5, 10, 20, and 30 features and consider these sets separate for dimensionality reduction & unsupervised learning tasks. As an example, the image of the confusion matrix below shows the original 37 features (left) being reduced to a set of the 30 features with the lowest correlation and highest mutual information (right).
 
-<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/before_after_reduction.png" width="900" height="400">
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/before_after_reduction.png" width="700" height="325">
 
 #### Dimensionality Reduction
 Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. As an example, the results of PCA and TSNE reducing the Top 10 feature set to 3 components is shown in the image below. Similar visualizations were used to evaluate the performance of reduction to 1 and 2 components
 
-<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/pca_tnse_top_10.png" width="900" height="400">
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/pca_tnse_top_10.png" width="675" height="325">
 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (PLACEHOLDER), and DBSCAN (3 TSNE Components).
 * _K-Means Best Outcome_
-<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_kmeans.png" width="700" height="300">
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_kmeans.png" width="550" height="250">
 
 * _GMM Best Outcome_
 PLACEHOLDER FOR BEST GMM
 
 * _DBSCAN Best Outcome_
-<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_dbscan.png" width="700" height="700">
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_dbscan.png" width="575" height="600">
 
 The external quality measures for the best result of each algorithm are provided in the bar plot below.
 PLACEHOLDER FOR BARPLOT
@@ -92,7 +92,7 @@ Due to the high correlation between features within these domains, most of the f
 #### Dimensionality Reduction
 We investigated two dimensionality reduction algorithms, PCA and TSNE. In our results from PCA, outliers cause variance to be highly concentrated in the first principal component, leading to a tight distribution of data points in others. This can be observed in the images below in which the majority of the data points appear “flattened” onto one axis or plane, corresponding to the lower-variance components. This issue becomes more apparent when we increase the dimensionality of the dataset, as evidenced by comparing the PCA results from the Top 5 versus Top 10 feature sets. When we examine the target values of points across the entire first principal component in Figures 4 and 5, we see that most are in the “awake” stage since most of the spread-out points correspond to spikes in signals, such as muscle activity, which are most common when someone is awake.
 
-ADD FLATTENED PCA IMAGES (4, 5 + 8,9)
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/flat_pca.png" width="575" height="600">
 
 We also implemented TSNE, as the algorithm better accounts for nonlinear relationships in our data. For optimal performance, sklearn recommends that TSNE be applied to a dataset with less than 50 features; given that our datasets range from 5-30 features, TSNE appears to be a viable method for our data. The images under the DBSCAN Results illustrate the output obtained from TSNE. The spread of data points is higher than PCA results, but the data points still tend to be highly concentrated with significant overlap between points corresponding to different sleep stages. The clear presence of outliers and irregularly shaped clusters indicate that after applying TSNE, DBSCAN will have much better performance than K-Means.
 
