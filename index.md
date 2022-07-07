@@ -75,14 +75,14 @@ The feature engineering and selection process discussed in the Methodology secti
 
 Below is a chart with the remaining features sorted by normalized mutual information.
 
-<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="700" height="325">
+<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="600">
 
 #### Dimensionality Reduction
 Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
 
 <img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
 
-<img src="https://brycegsmith.github.io/psg_project/images/tsne.png" width="675" height="325">
+<img src="https://brycegsmith.github.io/psg_project/images/tsne.png" width="575" height="600">
 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
