@@ -60,24 +60,27 @@ Following dimensionality reduction, we applied several unsupervised learning met
 
 ### Results
 #### Feature Selection
-The feature engineering and selection process discussed in the Methodology section was followed. As discussed, we selected the top 5, 10, 20, and 30 features and consider these sets separate for dimensionalityu reduction & unsupervised learning tasks. As an example, the image below shows the original 37 features being reduced to a set of the 30 features with the lowest correlation and highest mutual information.
+The feature engineering and selection process discussed in the Methodology section was followed. As discussed, we selected the top 5, 10, 20, and 30 features and consider these sets separate for dimensionality reduction & unsupervised learning tasks. As an example, the image below shows the original 37 features being reduced to a set of the 30 features with the lowest correlation and highest mutual information.
 
-PLACEHOLDER FOR FEATURE SELECTION IMAGE
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/before_after_reduction.png" width="950" height="450">
 
 #### Dimensionality Reduction
 Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. As an example, the results of PCA and TSNE reducing the Top 10 feature set to 3 components is shown in the image below. Similar visualizations were used to evaluate the performance of reduction to 1 and 2 components
 
-PLACEHOLDER FOR DIMENSIONALITY REDUCTION IMAGE
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/pca_tnse_top_10.png" width="950" height="450">
 
 #### Unsupervised Learning
-After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th component), GMM (PLACEHOLDER), and DBSCAN (3 Components). The external quality measures for the best result of each algorithm are provided in the bar plot below.
+After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th component), GMM (PLACEHOLDER), and DBSCAN (3 Components).
+* K-Means Best Outcome
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_kmeans.png" width="700" height="300">
 
-PLACEHOLDER FOR BEST KMEANS
-
+* GMM Best Outcome
 PLACEHOLDER FOR BEST GMM
 
-PLACEHOLDER FOR BEST DBSCAN
+* DBSCAN Best Outcome
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_dbscan.png" width="700" height="700">
 
+The external quality measures for the best result of each algorithm are provided in the bar plot below.
 PLACEHOLDER FOR BARPLOT
 
 ### Discussion
