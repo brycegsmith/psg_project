@@ -46,9 +46,7 @@ Feature extraction methods for each type of signal from the PSG data are describ
 
 #### Feature Selection
 After feature extraction, the correlation and mutual information methods were used to eliminate unnecessary features.
-* __Correlation Method__: Correlated features were detected and removed using the method proposed by Kuhn and Johnson. This method involves first calculating a correlation matrix for the data. Then, correlations are assessed pairwise (see image below). For any pair of features with a correlation above a set threshold (0.8 was used here), the feature in this pair with the larger average correlation between itself and every other feature was removed. This method eliminated 13 features.
-
-<img src="https://brycegsmith.github.io/psg_project/images/correlation_matrix.png" width="450" height="450">
+* __Correlation Method__: Correlated features were detected and removed using the method proposed by Kuhn and Johnson. This method involves first calculating a correlation matrix for the data. Then, correlations are assessed pairwise. For any pair of features with a correlation above a set threshold (0.8 was used here), the feature in this pair with the larger average correlation between itself and every other feature was removed. This method eliminated 13 features, as shown in the results section.
 
 * __Mutual Information Method__: After using the correlation method, we calculated the normalized mutual information between each feature and the sleep stages (target values) and defined four feature sets: the top 5, 10, 20, and 30 features with the greatest normalized mutual information values. As of this point, only the top 5 and top 10 sets have been evaluated by unsupervised learning, but we may incorporate use of the other two sets as we move into supervised learning.
 
