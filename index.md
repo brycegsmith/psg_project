@@ -53,11 +53,7 @@ After feature extraction, the correlation and mutual information methods were us
 * __Mutual Information Method__: After using the correlation method, we calculated the normalized mutual information between each feature and the sleep stages (target values) and defined four feature sets: the top 5, 10, 20, and 30 features with the greatest normalized mutual information values. As of this point, only the top 5 and top 10 sets have been evaluated by unsupervised learning, but we may incorporate use of the other two sets as we move into supervised learning.
 
 #### Dimensionality Reduction
-After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE). Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature groups (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
-
-<img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
-
-<img src="https://brycegsmith.github.io/psg_project/images/dimensionality_reduction.png" width="450" height="450">
+After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE). Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature groups (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components.
 
 #### Unsupervised Learning
 Following dimensionality reduction, we applied several unsupervised learning methods to our data, including K-Means, GMM, and DBSCAN. To determine the quality of our clustering, we used the external measures of homogeneity, F1 score, normalized mutual information, Rand Statistic, and Fowlkes-Mallows measure. The sleep stages were taken as the “ground-truth” assignments, and each cluster was assigned a sleep stage based on the sleep stage of the majority of points in that cluster. We defined the “predicted” label of a point as the sleep stage of the cluster that it was assigned to.
@@ -79,12 +75,14 @@ The feature engineering and selection process discussed in the Methodology secti
 
 Below is a chart with the remaining features sorted by normalized mutual information.
 
-
+<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="700" height="325">
 
 #### Dimensionality Reduction
-Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. As an example, the results of PCA and TSNE reducing the Top 10 feature set to 3 components is shown in the image below. Similar visualizations were used to evaluate the performance of reduction to 1 and 2 components
+Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
 
-<img src="https://brycegsmith.github.io/psg_project/images/pca_tnse_top_10.png" width="675" height="325">
+<img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
+
+<img src="https://brycegsmith.github.io/psg_project/images/tsne.png" width="675" height="325">
 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
