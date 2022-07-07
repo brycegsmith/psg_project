@@ -21,8 +21,9 @@ Outliers were detected in the dataset using the Local Outlier Factor (LOF) metho
 
 Finally, we applied robust scaling to our dataset using the interquartile range. We opted for robust scaling over standard scaling due to concerns regarding the effect of outliers on our dataset. The Box Cox Transformation was used to standardize all features to a normal distribution. The results of Box-Cox transformation applied to EOG Energy Content Band are shown below.
 
-[Before BC]
-[After BC]
+<img src="https://brycegsmith.github.io/psg_project/images/before_bc.png" width="450" height="300">
+
+<img src="https://brycegsmith.github.io/psg_project/images/after_bc.png" width="450" height="300">
 
 Additionally, we used encoding methods to express sleep disease and sleep stage (target) in numerical form. For sleep disease, we employed “dummy” encoding; with five disease classes including “Normal”,  we created four new binary variables that took value  “1” if an individual had a certain disease and “0” if not, with a “Normal” individual having all four of these binary variables equal to 0. For sleep stage, we used “ordinal” encoding in which we simply assigned each sleep stage a numerical value; the “awake” stage was assigned value “0”, NREM stages 1-4 were assigned their respective stage numbers, and REM was assigned value “5”.
 
@@ -73,7 +74,7 @@ The feature engineering and selection process discussed in the Methodology secti
 
 Below is a chart with the remaining features sorted by normalized mutual information.
 
-<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="600">
+<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="575">
 
 #### Dimensionality Reduction
 Again, the dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
