@@ -10,7 +10,8 @@ Sleep is an important physiological process directly correlated with physical he
 #### Dataset
 Our data source is the CAP Sleep Database on PhysioNet.<sup>3</sup> It contains PSG recordings for 108 individuals; each waveform has over 10 channels including EEGs (brain), EMGs (muscle), ECGs (heart), EOGs (eyes), and SPO2 (respiration) signals.<sup>4</sup> From each voltage waveform we extracted numerical measurements taken every two milliseconds. Additionally, for each individual, a text file provides labeled sleep stages every epoch (30 second interval) along with age, gender, and sleep disease information. After data preparation and feature extraction for all individuals, there were ~100,000 data points (~900 epochs for each individual) and ~30 features with at least one extracted feature from each biosignal. The target values are discrete sleep stages (Wake, REM, NREM 1-4). An overview of the distribution of sleep stages for all individuals in the dataset is shown below.
 
-<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/sleep_stage_distribution.png" width="400" height="400" />
+<img src="https://brycegsmith.github.io/psg_project/images/sleep_stage_distribution.png" width="400" height="400">
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/sleep_stage_distribution.png" width="400" height="400">
 
 #### Data Preparation
 To begin, data was cleaned by combining the metadata in each individual's text file with their raw sensor measurements. Categorical data (e.g., sleep disorder) was converted to numerical form by dummy encoding.
