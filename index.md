@@ -53,7 +53,7 @@ Following dimensionality reduction, we applied several unsupervised learning met
 * __K-Means__: K-Means was applied to our dataset via the sklearn implementation. As K-Means is notoriously sensitive to outliers, we expected suboptimal results. Thus, we explored similar methods to K-Means such as K-Medians and K-Medoids which are both more resistant to outliers. K-Means gave the baseline behavior while K-Medoids was chosen as it was the most outlier resistant due to the nature of cluster center selection. We utilized the elbow method and found that 3 clusters was optimal for K-Means & K-Medoids (see image below). It should be noted that 5 clusters is expected for our dataset as it would capture each stages of sleep. Thus, we ran the K-Means & K-Medoids on both 3 and 5 clusters. The 5 cluster models consistently gave better performances by all metrics.
 <img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/kmeans_plot.png" width="450" height="300">
 
-* __GMM__: GMM was applied to our dataset via the sklearn implementation.
+* __GMM__: GMM was applied to our dataset via the sklearn implementation. Like K-Means, the most important parameter for GMM is the specified number of clusters. For our data, six clusters are used to yield the best results across all metrics.
 
 * __DBSCAN__: DBSCAN was applied using the implementation in the sklearn package. The critical parameters to set for the algorithm are epsilon, or the maximum radius of a neighborhood around a point, and MinPts, the minimum number of points required to be in a point’s epsilon neighborhood for that point to be considered a core point. The starting value of MinPts was determined based on the dimensionality of the data being clustered, using the rule of thumb that in noisy datasets, a MinPts of 2xD is often appropriate. Epsilon was calculated using the distance to the 4 nearest neighbors of each point (see image below). These distances were sorted and plotted, yielding a graph that shows a flat region followed by a sharp increase in distance to outliers. A starting value of epsilon was selected as a value in the flat region of this graph, and it was adjusted further by steps of 0.1 to increase the clustering metrics.
 <img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/dbscan_plot.png" width="450" height="300">
@@ -75,7 +75,7 @@ After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on dat
 <img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_kmeans.png" width="550" height="250">
 
 * _GMM Best Outcome_
-PLACEHOLDER FOR BEST GMM
+<img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_gmm.png" width="550" height="250">
 
 * _DBSCAN Best Outcome_
 <img src="https://github.com/brycegsmith/psg_project/blob/gh-pages/images/best_dbscan.png" width="575" height="600">
