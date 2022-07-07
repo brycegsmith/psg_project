@@ -24,12 +24,15 @@ Finally, we applied robust scaling to our dataset using the interquartile range.
 #### Feature Engineering
 Feature extraction methods for each type of signal from the PSG data are described:
 * __EEG__: EEG (electroencephalogram) is a technique used to detect electrical activity in the brain. Manual sleep stage classification is largely dependent on the fraction of brain waves with specific frequencies (e.g., delta waves with a frequency of 1 - 4 Hz) and secondary time-domain features. In our dataset, available EEG signals differ slightly between individuals, but broadly follow the International 10-20 System. Extensive literature exists on useful EEG features, so a subset of suggested features were selected. First, the time-domain EEG signal was decomposed into the frequency-domain using Welch’s method (see image below), and the power of each frequency band of each brain wave was computed. Second, multiple entropy-based metrics (i.e., metrics conveying the amount of information given by a signal) were computed. Finally, miscellaneous more sophisticated time-domain metrics (e.g., Petrosian fractal dimension) were calculated. In total, thirteen unique features were computed using the provided EEG signals. All EEG features were averaged across each individual’s EEG channels.
+
 <img src="https://brycegsmith.github.io/psg_project/images/eeg_report_image.png" width="450" height="300">
 
 * __ECG & PPG__: ECG (electrocardiogram) and PPG (photoplethysmogram) are two methods used to record heart beats during the sleep studies. First, Python's hearty library was used to detect heart beats (see image below). Once heart beats were located, heart rate could be calculated. Beyond heart rate, an informative set of metrics consist of those that quantify variation in heart rate. The root mean square of the differences in time between adjacent heart beats (RMSSD) is one measure of heart rate variability, which is useful in our application because it can be meaningfully calculated over short time periods, such as 30 second epochs. Heart rate changes in the frequency domain, specifically “low frequency” changes in (0.04-0.15Hz) and “high frequency” changes (0.15-0.5 Hz) have been observed to vary with sleep stage, so these were also applied using the implementation in the heartpy library.
+
 <img src="https://brycegsmith.github.io/psg_project/images/ecg_report_image.png" width="450" height="300">
 
 * __EMG__ - EMG (electromyography) is a method for measuring electrical activity of muscles. The main metric used to quantify the EMG activity was energy, calculated as the sum of squared differences between each point and the sample mean, divided by the number of samples. Progression into deeper stages of sleep is typically correlated with a decrease in muscle tone, which corresponds to a decrease in baseline EMG energy, but REM sleep is also associated with brief spikes in muscle activity (see image below). To capture these transient spikes in EMG energy that were “averaged out” over an entire 30 second epoch, a moving average with a five second window was applied over each second, and the average of the five highest windows was recorded within each 30 second epoch.
+
 <img src="https://brycegsmith.github.io/psg_project/images/emg_report_image.png" width="450" height="300">
 
 * __EOG__: EOG (electrooculography) is used to detect activity within the human eye. One study aimed at Human-Computer Interaction applications mentioned a few useful features that were extracted from EOG signals, including: Maximum Peak Amplitude, which measures the maximum positive amplitude, Maximum Valley Amplitude, which measures the maximum negative amplitude, Area Under Curve, which is a summation of the absolute values of amplitude under positive and negative curves, and Signal Variance. All of these metrics were calculated within each epoch. Another study that focused specifically on sleep staging estimated the Power Spectrum for the EOG signal and calculated the Energy Content Band by integrating this function over the frequency range 0.35-0.5 Hz, where REM activity is concentrated. Using a Welch method to estimate the power spectrum, we calculated the Energy Content Band for each epoch.
@@ -39,6 +42,7 @@ Feature extraction methods for each type of signal from the PSG data are describ
 #### Feature Selection
 After feature extraction, the correlation and mutual information methods were used to eliminate unnecessary features.
 * __Correlation Method__: Correlated features were detected and removed using the method proposed by Kuhn and Johnson. This method involves first calculating a correlation matrix for the data. Then, correlations are assessed pairwise (see image below). For any pair of features with a correlation above a set threshold (0.8 was used here), the feature in this pair with the larger average correlation between itself and every other feature was removed. This method eliminated 13 features.
+
 <img src="https://brycegsmith.github.io/psg_project/images/correlation_matrix.png" width="450" height="450">
 
 * __Mutual Information Method__: After using the correlation method, we calculated the normalized mutual information between each feature and the sleep stages (target values) and defined four feature sets: the top 5, 10, 20, and 30 features with the greatest normalized mutual information values. As of this point, only the top 5 and top 10 sets have been evaluated by unsupervised learning, but we may incorporate use of the other two sets as we move into supervised learning.
@@ -51,11 +55,13 @@ After feature selection, two methods were employed to reduce the dimensionality 
 #### Unsupervised Learning
 Following dimensionality reduction, we applied several unsupervised learning methods to our data, including K-Means, GMM, and DBSCAN. To determine the quality of our clustering, we used the external measures of homogeneity, F1 score, normalized mutual information, Rand Statistic, and Fowlkes-Mallows measure. The sleep stages were taken as the “ground-truth” assignments, and each cluster was assigned a sleep stage based on the sleep stage of the majority of points in that cluster. We defined the “predicted” label of a point as the sleep stage of the cluster that it was assigned to.
 * __K-Means__: K-Means was applied to our dataset via the sklearn implementation. As K-Means is notoriously sensitive to outliers, we expected suboptimal results. Thus, we explored similar methods to K-Means such as K-Medians and K-Medoids which are both more resistant to outliers. K-Means gave the baseline behavior while K-Medoids was chosen as it was the most outlier resistant due to the nature of cluster center selection. We utilized the elbow method and found that 3 clusters was optimal for K-Means & K-Medoids (see image below). It should be noted that 5 clusters is expected for our dataset as it would capture each stages of sleep. Thus, we ran the K-Means & K-Medoids on both 3 and 5 clusters. The 5 cluster models consistently gave better performances by all metrics.
+
 <img src="https:/brycegsmith.github.io/psg_project/blob/gh-pages/images/kmeans_plot.png" width="450" height="300">
 
 * __GMM__: GMM was applied to our dataset via the sklearn implementation. Like K-Means, the most important parameter for GMM is the specified number of clusters. For our data, six clusters are used to yield the best results across all metrics.
 
 * __DBSCAN__: DBSCAN was applied using the implementation in the sklearn package. The critical parameters to set for the algorithm are epsilon, or the maximum radius of a neighborhood around a point, and MinPts, the minimum number of points required to be in a point’s epsilon neighborhood for that point to be considered a core point. The starting value of MinPts was determined based on the dimensionality of the data being clustered, using the rule of thumb that in noisy datasets, a MinPts of 2xD is often appropriate. Epsilon was calculated using the distance to the 4 nearest neighbors of each point (see image below). These distances were sorted and plotted, yielding a graph that shows a flat region followed by a sharp increase in distance to outliers. A starting value of epsilon was selected as a value in the flat region of this graph, and it was adjusted further by steps of 0.1 to increase the clustering metrics.
+
 <img src="https://brycegsmith.github.io/psg_project/images/dbscan_plot.png" width="450" height="300">
 
 ### Results
@@ -72,15 +78,19 @@ Again, the dimensionality reduction process using PCA and TSNE described in the 
 #### Unsupervised Learning
 After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
 * _K-Means Best Outcome_
+
 <img src="https://brycegsmith.github.io/psg_project/images/best_kmeans.png" width="550" height="250">
 
 * _GMM Best Outcome_
+
 <img src="https://brycegsmith.github.io/psg_project/images/best_gmm.png" width="550" height="250">
 
 * _DBSCAN Best Outcome_
+
 <img src="https://brycegsmith.github.io/psg_project/images/best_dbscan.png" width="575" height="600">
 
 The external quality measures for the best result of each algorithm are provided in the bar plot below.
+
 PLACEHOLDER FOR BARPLOT
 
 ### Discussion
