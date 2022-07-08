@@ -56,11 +56,11 @@ After feature extraction, the correlation and mutual information methods were us
 * __Mutual Information Method__: After using the correlation method, we calculated the normalized mutual information between each feature and the sleep stages (target values) and defined four feature sets: the top 5, 10, 20, and 30 features with the greatest normalized mutual information values. As of this point, only the top 5 and top 10 sets have been evaluated by unsupervised learning, but we may incorporate use of the other two sets as we move into supervised learning.
 
 #### Dimensionality Reduction
-After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE). Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature groups (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components. Going forward, we plan to explore other manifold-learning based dimensionality reduction procedures (like TSNE) such as isomap.
+After feature selection, two methods were employed to reduce the dimensionality of data - Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (TSNE). Broadly, PCA linearly transforms combinations of features such that variance is maximized along each principal component (i.e., axis). TSNE is a more sophisticated dimensionality reduction  technique that is able to account for nonlinear features in data. Both techniques were employed on the four feature groups (i.e., top 5, 10, 20, & 30 features) and were used to reduce to 1, 2, and 3 components. Isomap, a non-linear, manifold-based dimensionality reduction algorithm was also applied to the dataset. The results of this dimensionality reduction can be observed in the Results section, but because the method did not yield noticeably improved differentiation of sleep stages in the reduced feature space, these results were not used with the unsupervised learning algorithms.
 
 #### Unsupervised Learning
 Following dimensionality reduction, we applied several unsupervised learning methods to our data, including K-Means, GMM, and DBSCAN. To determine the quality of our clustering, we used the external measures of homogeneity, F1 score, normalized mutual information, Rand Statistic, and Fowlkes-Mallows measure. The sleep stages were taken as the “ground-truth” assignments, and each cluster was assigned a sleep stage based on the sleep stage of the majority of points in that cluster. We defined the “predicted” label of a point as the sleep stage of the cluster that it was assigned to.
-* __K-Means__: K-Means was applied to our dataset via the sklearn implementation. As K-Means is notoriously sensitive to outliers, we expected suboptimal results. Thus, we explored similar methods to K-Means such as K-Medians and K-Medoids which are both more resistant to outliers.<sup>15</sup> K-Means gave the baseline behavior while K-Medoids was chosen as it was the most outlier resistant due to the nature of cluster center selection. We utilized the elbow method and found that 3 clusters was optimal for K-Means & K-Medoids (see image below). It should be noted that 5 clusters is expected for our dataset as it would capture each stage of sleep. Thus, we ran the K-Means & K-Medoids on both 3 and 5 clusters. The 5 cluster models consistently gave better performances by all metrics.
+* __K-Means__: K-Means was applied to our dataset via the sklearn implementation. As K-Means is notoriously sensitive to outliers, we expected suboptimal results. Thus, we explored similar methods to K-Means such as K-Medians and K-Medoids which are both more resistant to outliers.<sup>15</sup> K-Means gave the baseline behavior while K-Medoids was chosen as it was the most outlier resistant due to the nature of cluster center selection. We utilized the elbow method and found that 3 clusters was optimal for K-Means & K-Medoids (see image below). It should be noted that 6 clusters is expected for our dataset as it would capture each stage of sleep. Thus, we ran the K-Means & K-Medoids on both 3 and 6 clusters. The 6 cluster models consistently gave better performances by all metrics.
 
 <img src="https://brycegsmith.github.io/psg_project/images/kmeans_plot.png" width="450" height="300">
 
@@ -113,6 +113,17 @@ The external quality measures for the best result of each algorithm are provided
 * _Figure 8: Comparison of Performance for Each Clustering Algorithm_
 
 <img src="https://brycegsmith.github.io/psg_project/images/metrics_barplot.png" width="550" height="400">
+
+### Isomap Dimensionality Reduction
+Isomap dimensionality reduction was also applied to the data. Because the results did not yield greater differentiation of the sleep stages than PCA and showed the added difficulties of a mixture of low density and high density regions and abnormally shaped clusters, these results were not put through the unsupervised learning algorithms.
+
+* _Figure 9: Isomap Dimensionality Reduction of 5 Top Features_
+
+<img src="https://brycegsmith.github.io/psg_project/images/isomap_5features.png" width="550" height="250">
+
+* _Figure 10: Isomap Dimensionality Reduction of 5 Top Features_
+
+<img src="https://brycegsmith.github.io/psg_project/images/isomap_10features.png" width="550" height="250">
 
 ### Discussion
 
