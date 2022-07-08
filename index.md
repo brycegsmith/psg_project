@@ -114,7 +114,8 @@ The external quality measures for the best result of each algorithm are provided
 
 <img src="https://brycegsmith.github.io/psg_project/images/metrics_barplot.png" width="550" height="400">
 
-### Isomap Dimensionality Reduction
+### Ancillary Results:
+#### Isomap Dimensionality Reduction
 Isomap dimensionality reduction was also applied to the data. Because the results did not yield greater differentiation of the sleep stages than PCA and showed the added difficulties of a mixture of low density and high density regions and abnormally shaped clusters, these results were not put through the unsupervised learning algorithms.
 
 * _Figure 9: Isomap Dimensionality Reduction of 5 Top Features_
@@ -124,6 +125,24 @@ Isomap dimensionality reduction was also applied to the data. Because the result
 * _Figure 10: Isomap Dimensionality Reduction of 5 Top Features_
 
 <img src="https://brycegsmith.github.io/psg_project/images/isomap_10features.png" width="550" height="250">
+
+#### Simplification of K-Means and GMM Clustering
+As mentioned, applying the elbow method for K-Means suggested an ideal cluster size of 3. Because the six sleep stage targets present in this dataset (Wake, NREM1, NREM2, NREM3, NREM4, and REM) can be more broadly grouped into only three more general targets (Wake, NREM, and REM), K-Means and GMM with three clusters were applied and compared to these broader sleep stage classifications.
+
+* _Figure 11: K-Means - 3 Target Values_
+
+<img src="https://brycegsmith.github.io/psg_project/images/best_kmeans_3targets.png" width="550" height="250">
+
+* _Figure 12: GMM - 3 Target Values_
+
+<img src="https://brycegsmith.github.io/psg_project/images/best_gmm_3targets.png" width="550" height="250">
+
+* _Table 1: Clustering Metrics - 3 Target Values_
+
+|   |NMI|F1 |Homogeneity   |Rand-Stat   | Fowlkes-Mallows|
+|---|---|---|---|---|---|
+|K-Means   |0.2303   |0.8074   |0.2515   |0.6750   |0.7297|
+|GMM   |0.2940   |0.8282   |0.3227   |0.7013   |0.7509|
 
 ### Discussion
 
