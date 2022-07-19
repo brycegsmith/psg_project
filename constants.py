@@ -1,5 +1,6 @@
 # Start Times dict with the needed start time params associated with each EDF
 # Data Previews: https://archive.physionet.org/cgi-bin/atm/ATM
+#https://bilalzonjy.github.io/EDFViewer/EDFViewer.html
 # Set Input:
 #    Set Database to CAP Sleep Database (capslpdb)
 #    Set Record to the Correct Individual
@@ -57,6 +58,22 @@ startTimes = {
         "study_start_min": 58,
         "study_start_second": 14,
     },
+    "ins8": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 16,
+        "study_start_second": 34,
+    },
+    "ins9": {
+        "study_start_year": 1999,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 28,
+        "study_start_second": 44,
+    },
     "n11": {
         "study_start_year": 2007,
         "study_start_month": 1,
@@ -80,6 +97,14 @@ startTimes = {
         "study_start_hour": 19,
         "study_start_min": 12,
         "study_start_second": 6,
+    },
+    "n5": {
+        "study_start_year": 2009,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 29,
+        "study_start_second": 48,
     },
     "nfle10": {
         "study_start_year": 2010,
@@ -129,6 +154,38 @@ startTimes = {
         "study_start_min": 7,
         "study_start_second": 22,
     },
+    "nfle16": {
+        "study_start_year": 2006,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 54,
+        "study_start_second": 24,
+    },
+    "nfle17": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 23,
+        "study_start_min": 2,
+        "study_start_second": 16,
+    },
+    "nfle18": {
+        "study_start_year": 2009,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 21,
+        "study_start_min": 54,
+        "study_start_second": 27,
+    },
+    "nfle19": {
+        "study_start_year": 2014,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 23,
+        "study_start_min": 30,
+        "study_start_second": 56,
+    },
     "plm10": {
         "study_start_year": 2011,
         "study_start_month": 1,
@@ -177,6 +234,30 @@ startTimes = {
         "study_start_min": 28,
         "study_start_second": 17,
     },
+    "plm7": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 17,
+        "study_start_second": 0,
+    },
+    "plm8": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 21,
+        "study_start_min": 51,
+        "study_start_second": 17,
+    },
+    "plm9": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 01,
+        "study_start_second": 40,
+    },
     "rbd10": {
         "study_start_year": 2008,
         "study_start_month": 1,
@@ -224,6 +305,30 @@ startTimes = {
         "study_start_hour": 21,
         "study_start_min": 54,
         "study_start_second": 31,
+    },
+    "rbd18": {
+        "study_start_year": 2008,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 2,
+        "study_start_second": 52,
+    },
+    "rbd19": {
+        "study_start_year": 2007,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 7,
+        "study_start_second": 54,
+    },
+    "rbd20": {
+        "study_start_year": 2001,
+        "study_start_month": 1,
+        "study_start_day": 1,
+        "study_start_hour": 22,
+        "study_start_min": 26,
+        "study_start_second": 3,
     },
 }
 
