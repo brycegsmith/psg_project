@@ -88,7 +88,7 @@ After removing highly correlated features, normalized mutual information with th
 
 * _Figure 2: Remaining Features Sorted by Normalized Mutual Information Values_
 
-<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="575">
+<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="275" height="575">
 
 #### Dimensionality Reduction
 The dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
