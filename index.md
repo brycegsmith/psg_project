@@ -82,11 +82,13 @@ The feature engineering and selection process discussed in the Methodology secti
 
 * _Figure 1: Correlation Heat Map Before and After Eliminating Highly Correlated Features_
 
+<img src="https://brycegsmith.github.io/psg_project/images/before_after_reduction.png" width="700" height="325">
 
 After removing highly correlated features, normalized mutual information with the target values (sleep stages) was calculated, and the most informative features were selected.
 
 * _Figure 2: Remaining Features Sorted by Normalized Mutual Information Values_
 
+<img src="https://brycegsmith.github.io/psg_project/images/nmi.png" width="325" height="575">
 
 #### Dimensionality Reduction
 The dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
