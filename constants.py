@@ -255,7 +255,7 @@ startTimes = {
         "study_start_month": 1,
         "study_start_day": 1,
         "study_start_hour": 22,
-        "study_start_min": 01,
+        "study_start_min": 1,
         "study_start_second": 40,
     },
     "rbd10": {
