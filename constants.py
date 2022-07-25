@@ -1,6 +1,6 @@
 # Start Times dict with the needed start time params associated with each EDF
 # Data Previews: https://archive.physionet.org/cgi-bin/atm/ATM
-#https://bilalzonjy.github.io/EDFViewer/EDFViewer.html
+# https://bilalzonjy.github.io/EDFViewer/EDFViewer.html
 # Set Input:
 #    Set Database to CAP Sleep Database (capslpdb)
 #    Set Record to the Correct Individual
@@ -255,7 +255,7 @@ startTimes = {
         "study_start_month": 1,
         "study_start_day": 1,
         "study_start_hour": 22,
-        "study_start_min": 01,
+        "study_start_min": 1,
         "study_start_second": 40,
     },
     "rbd10": {
