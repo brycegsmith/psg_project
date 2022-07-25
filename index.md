@@ -80,7 +80,7 @@ Following dimensionality reduction, we applied several unsupervised learning met
 
 #### Supervised Learning
 
-Based on our unsupervised learning results and the imbalance in distribution of sleep stages in our data, we decided to consolidate NREM stages 1-4 into a single class before applying our supervised learning algorithms. This results in approximately 70% of our datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM, especially the latter, when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
+Based on our unsupervised learning results and the imbalance in distribution of sleep stages in our data, we decided to consolidate NREM stages 1-4 into a single class before applying our supervised learning algorithms. Many ML sleep staging studies, such as one by Satapathy<sup>16</sup>, build predictive models with a consolidated NREM class. This results in approximately 70% of our datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. This helps reduce artifical inflation of accuracy from data imbalances. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
 
 * __Naive Bayes__:
 
@@ -220,3 +220,4 @@ Sleep stage prediction seems to be more tailored towards supervised learning met
 13. Choi, E., Park, D.-H., Yu, J.-H., Ryu, S.-H., & Ha, J.-H. (2016, November). The severity of sleep disordered breathing induces different decrease in the oxygen saturation during rapid eye movement and non-rapid eye movement sleep. Psychiatry investigation.
 14. Kuhn, M., Johnson, K. (2013). Data Pre-processing. In: Applied Predictive Modeling. Springer, New York, NY. https://doi.org/10.1007/978-1-4614-6849-3_3
 15. Clustering with KMEDOIDS and common-nearest-neighbors¶. scikit. (n.d.).
+16. Satapathy S, Loganathan D, Kondaveeti HK, Rath R. Performance analysis of machine learning algorithms on automated sleep staging feature sets. CAAI Transactions on Intelligence Technology. 2021;6(2):155-174. doi:https://doi.org/10.1049/cit2.12042
