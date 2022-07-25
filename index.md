@@ -80,11 +80,15 @@ Following dimensionality reduction, we applied several unsupervised learning met
 
 #### Supervised Learning
 
-Based on our unsupervised learning results and the imbalance in distribution of sleep stages, NREM stages 1-4 were consolidated into a single class before applying supervised learning algorithms. Many ML sleep staging studies, such as one by Satapathy<sup>16</sup>, build predictive models with a consolidated NREM class. This results in approximately 70% of datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. This helps reduce artifical inflation of accuracy from data imbalances. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
+Based on our unsupervised learning results and the imbalance in distribution of sleep stages, NREM stages 1-4 were consolidated into a single class before applying supervised learning algorithms. Many ML sleep staging studies, such as one by Satapathy<sup>16</sup>, build predictive models with a consolidated NREM class. This results in approximately 70% of datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. This helps reduce artifical inflation of accuracy from data imbalances. Undersampling and oversampling techniques were applied after dimensionality reduction, and they were only applied to the training dataset. The supervised learning classification algorithms we applied include Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
 
-* __Naive Bayes__:
+* __Undersampling__: The undersampling technique used was the Neighborhood Cleaning Rule (NCR) as implemented in the Imbalanced Learn library. This technique assesses the nearest neighbors (3 neighbors were used) of each datapoint, and removes the data points for which all neighbors are not in the same class. In addition, NCR runs a 3 nearest neighbors classifier and removes data points not belonging to the predicted class.
 
-* __Logistic Regression__: 
+* __Oversampling__: The oversampling technique used was the Synthetic Minority Oversampling Technique (SMOTE). This method uses interpolation between data points in the same class to generate prototype data points for the class. This was used to add additional data points to the minority classes (Wake and REM) until they matched the number of points in the NREM class.
+
+* __Naive Bayes__: Gaussian Naive Bayes was applied using the implementation in sklearn. The best results were obtained by applying dimensionality reduction using a 5-component PCA and then isolating the 3rd, 4th, and 5th principal components. Following dimensionality reduction, one challenge in training an effective Naive Bayes classifier was overlapping data points from different classes. Even in regions that were primarily composed of a single sleep stage, there were often noisy data points from other sleep stages interspersed in these regions, so NCR undersampling was applied to clean these regions in the training dataset. The next challenge arose as a result of an imbalance between the relatively few REM data points and the more common Wake and NREM data points. SMOTE oversampling was applied following PCA to increase the number of the points in the minority classes.
+
+* __Logistic Regression__: Logistic regression was applied using the implementation in sklearn. The one-vs-rest technique was used to classify the data into three groups, and for each binary classification arising in the one-vs-rest comparisons, a probability threshold of 0.5 was used as the cutoff for predicting one class over another. As with the Naive Bayes classifier, prior to running the logistic regression, NCR undersampling and SMOTE oversampling were applied to the dimensionality reduced data.
 
 * __Random Forest__: After applying dimensionality reduction and applying undersampling to our training data using the Neighborhood Clearing Rule, Random Forest was applied to our dataset via the sklearn implementation. By default, the function fits 100 decision trees using a bootstrapping (random selection with replacement) of our training data and expands each tree until every node is pure. However, this expansion leads to major overfitting on our training data. One way to resolve this issue is through pruning, which eliminates certain branches of the node at the cost of greater impurity of nodes. Adjusting the ccp_alpha parameter in the sklearn implementation is one method of pruning. Using the sklearn default of 100 trees, we can determine the optimal ccp_alpha by finding the lowest value that maximizes prediction accuracy in our testing data. The plots below show parameter tuning using our top 5 dataset after applying a two-dimensional TSNE algorithm; as we will show later, Random Forest had the best performance on this data.
 
@@ -99,6 +103,10 @@ Based on the plot above, prediction accuracy stabilizes significantly as the siz
 Another parameter that is often tuned in Random Forest is the number of features used in each decision tree, but this was not found to be helpful in improving accuracy for the top 5 data after a two-dimensional TSNE, which is logical given the small dimensionality.
 
 * __SVM__:
+
+* __SVM with RBF Kernel__: A support vector machine with a radial basis function (RBF) kernel was applied to the dataset after TSNE dimensionality reduction to two dimensions. No undersampling or oversampling was used. The parameters for SVM with the RBF kernel are a misclassification term, C, which allows for more misclassification at lower values, and gamma, the positive coefficient of the exponent in the RBF kernel function. In order to set these parameters, a grid search was performed. This involved testing every combination of these parameters over a specified range (C from 0.1 to 100 and gamma from 0.0001 to 1). For each parameter combination, a 5-fold cross validation was performed, and the combination achieving the best accuracy was selected. A heat map showing the accuracy acheived with each parameter combination is whosn below. During this grid search, only the designated training data was used. The selected parameters were then used to apply the SVM model to the designated testing data, and slight adjustments were made manually to further improve accuracy.
+
+<img src="https://brycegsmith.github.io/psg_project/images/TuningRBF.png" width="375" height="250">
 
 * __LSTM Neural Network__: 
 
@@ -179,19 +187,29 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 
 #### Supervised Learning
 
-* _Figure 13: Naive Bayes Best Outcome_
+* _Figure 13: Target Values for Naive Bayes and Logistic Regression_
 
-* _Figure 14: Logistic Regression Best Outcome_
+<img src="https://brycegsmith.github.io/psg_project/images/5componentPCA.png" width="725" height="350">
 
-* _Figure 15: Random Forest Best Outcome_
+* _Figure 14: Naive Bayes Best Outcome_
+
+<img src="https://brycegsmith.github.io/psg_project/images/NaiveBayes.png" width="725" height="350">
+
+* _Figure 15: Logistic Regression Best Outcome_
+
+<img src="https://brycegsmith.github.io/psg_project/images/LogisticRegression.png" width="725" height="350">
+
+* _Figure 16: Random Forest Best Outcome_
 
 <img src="https://brycegsmith.github.io/psg_project/images/rf_best_results.png" width="800" height="250">
 
-* _Figure 16: SVM Best Outcome_
+* _Figure 17: SVM with RBF Kernel Best Outcome_
 
-* _Figure 17: LSTM Best Outcome_
+<img src="https://brycegsmith.github.io/psg_project/images/SVM_RBF_TSNE.png" width="700" height="350">
 
-* _Figure 18: Comparison of Performance for Each Classification Algorithm_
+* _Figure 18: LSTM Best Outcome_
+
+* _Figure 19: Comparison of Performance for Each Classification Algorithm_
 
 
 ### Discussion
@@ -230,7 +248,11 @@ Sleep stage prediction seems to be more tailored towards supervised learning met
 
 #### Supervised Learning
 
-Figure 15 shows the best results with Random Forest, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved an F1-score of 0.774 and an accuracy of 0.792.
+The bar chart comparing accuracy between the different supervised methods reveals that, in general, methods such as Random Forest and SVM that accommodate decision boundaries with more complex shapes tend to perform better. The Gaussian Naive Bayes (GNB) classifier was applied because from inspecting the PCA results, the sleep stages were largely grouped into regions with a somewhat round shape, similar to the spheroidal Gaussian distributions used in the GNB classifier. When applied on the dataset, however, GNB had limited accuracy. One of the challenges contributing to this was the significant overlap between the different sleep stages. While the PCA does generate regions dominated by one sleep stage, these regions are not distinct, and GNB does not learn a decision boundary complex enough to characterize this overlap. Another challenge was that without SMOTE oversampling, the classifier never predicted REM, but with SMOTE, the classifier predicted the REM stage too frequently, as seen when comparing the relatively few REM classifications in Figure 13 to the substantial amount in Figure 14. This reduces the accuracy of the classifier. Logistic regression suffers from similar shortcomings because it does not learn a decision boundary that can accommodate the intricacies of the regions with high overlap between different sleep stages, leading to a high misclassification rate. It also faces the same issue of over-predicing REM with SMOTE applied but completely ignoring REM when no oversampling is used.
+
+Figure 16 shows the best results with Random Forest, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved an F1-score of 0.774 and an accuracy of 0.792.
+
+Figure 17 shows the best results acheived by SVM with an RBF kernel. This method acheived high accuracy at 77% by overcoming two of the major challenges of the less complex classifiers (GNB and logistic regression). Because the RBF kernel allows for a complex decision boundary to be learned, this method could be successfully applied to the TSNE dimensionality reduction, which does a better job of separating the sleep stages than PCA but generates abnormal shapes that are not suited to GNB and logistic regression. SVM also did not ignore the minority classes REM and Wake, so no undersampling or oversampling was necesarry. This meant SVM did not suffer from an overestimation of the frequency of REM and Wake as GNB and logistic regression did. 
 
 
 
