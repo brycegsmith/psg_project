@@ -92,11 +92,11 @@ Based on our unsupervised learning results and the imbalance in distribution of 
 
 * __Random Forest__: After applying dimensionality reduction and applying undersampling to our training data using the Neighborhood Clearing Rule, Random Forest was applied to our dataset via the sklearn implementation. By default, the function fits 100 decision trees using a bootstrapping (random selection with replacement) of our training data and expands each tree until every node is pure. However, this expansion leads to major overfitting on our training data. One way to resolve this issue is through pruning, which eliminates certain branches of the node at the cost of greater impurity of nodes. Adjusting the ccp_alpha parameter in the sklearn implementation is one method of pruning. Using the sklearn default of 100 trees, we can determine the optimal ccp_alpha by finding the lowest value that maximizes prediction accuracy in our testing data. The plots below show parameter tuning using our top 5 dataset after applying a two-dimensional TSNE algorithm; as we will show later, Random Forest had the best performance on this data.
 
-<img src="https://brycegsmith.github.io/psg_project/images/rf_pruning.png" width="375" height="250">
+<img src="https://brycegsmith.github.io/psg_project/images/rf_pruning.png" width="450" height="300">
 
 Based on the plot above, the optimal ccp_alpha value is 0.0035. Random Forests of various sizes were fitted to our training data and their prediction accuracies on testing data were checked to determine an appropriate number of trees.
 
-<img src="https://brycegsmith.github.io/psg_project/images/num_trees.png" width="375" height="250">
+<img src="https://brycegsmith.github.io/psg_project/images/num_trees.png" width="450" height="300">
 
 Based on the plot above, prediction accuracy stabilizes significantly as the size of a Random Forest increases. Since the prediction accuracy is mostly stable for Random Forests comprised of over 50 decision trees, a forest of 100 decision trees is appropriate.
 
@@ -210,6 +210,8 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 * _Figure 18: LSTM Best Outcome_
 
 * _Figure 19: Comparison of Performance for Each Classification Algorithm_
+
+<img src="https://brycegsmith.github.io/psg_project/images/supervised_accuracy.png" width="550" height="400">
 
 
 ### Discussion
