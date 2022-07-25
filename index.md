@@ -230,6 +230,7 @@ Sleep stage prediction seems to be more tailored towards supervised learning met
 
 #### Supervised Learning
 
+Figure 15 shows the best results with Random Forest, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved an F1-score of 0.774 and an accuracy of 0.792.
 
 
 
