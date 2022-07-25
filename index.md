@@ -78,6 +78,21 @@ Following dimensionality reduction, we applied several unsupervised learning met
 
 <img src="https://brycegsmith.github.io/psg_project/images/dbscan_plot.png" width="450" height="300">
 
+#### Supervised Learning
+
+Based on our unsupervised learning results and the imbalance in distribution of sleep stages in our data, we decided to consolidate NREM stages 1-4 into a single class before applying our supervised learning algorithms. This results in approximately 70% of our datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM, especially the latter, when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
+
+* __Naive Bayes__:
+
+* __Logistic Regression__: 
+
+* __Random Forest__: 
+
+* __SVM__:
+
+* __LSTM Neural Network__: 
+
+
 ### Results
 #### Feature Engineering & Selection
 The feature engineering and selection process discussed in the Methodology section was followed. As discussed, we selected the top 5, 10, 20, and 30 features and consider these sets separate for dimensionality reduction & unsupervised learning tasks. As an example, the image of the correlation matrix below shows the original 37 features (left) being reduced to a set of the 30 features with the lowest correlation and highest mutual information (right).
