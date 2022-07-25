@@ -185,7 +185,7 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 
 * _Figure 15: Random Forest Best Outcome_
 
-<img src="https://brycegsmith.github.io/psg_project/images/rf_best_results.png" width="550" height="250">
+<img src="https://brycegsmith.github.io/psg_project/images/rf_best_results.png" width="750" height="250">
 
 * _Figure 16: SVM Best Outcome_
 
