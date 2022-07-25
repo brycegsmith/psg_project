@@ -80,7 +80,7 @@ Following dimensionality reduction, we applied several unsupervised learning met
 
 #### Supervised Learning
 
-Based on our unsupervised learning results and the imbalance in distribution of sleep stages in our data, we decided to consolidate NREM stages 1-4 into a single class before applying our supervised learning algorithms. Many ML sleep staging studies, such as one by Satapathy<sup>16</sup>, build predictive models with a consolidated NREM class. This results in approximately 70% of our datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. This helps reduce artifical inflation of accuracy from data imbalances. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
+Based on our unsupervised learning results and the imbalance in distribution of sleep stages, NREM stages 1-4 were consolidated into a single class before applying our supervised learning algorithms. Many ML sleep staging studies, such as one by Satapathy<sup>16</sup>, build predictive models with a consolidated NREM class. This results in approximately 70% of datapoints having the target label ‘NREM’, which causes some algorithms to largely ignore the minority classes Wake and NREM when making predictions in an attempt to optimize overall accuracy. Therefore, before running certain algorithms, undersampling and/or oversampling techniques were applied to our training data. This helps reduce artifical inflation of accuracy from data imbalances. For this problem, we applied classification algorithms like Naive Bayes, Logistic Regression, Random Forest, SVM, and LSTM Neural Network.
 
 * __Naive Bayes__:
 
@@ -120,26 +120,26 @@ After removing highly correlated features, normalized mutual information with th
 #### Dimensionality Reduction
 The dimensionality reduction process using PCA and TSNE described in the Methodology section was followed. The results of dimensionality reduction when reducing the top 5 and top 10 features to 2-3 dimensions is shown below.
 
-* _Figure 3: PCA Results_
+* _Figure 3: PCA Results - Training Data_
 
 <img src="https://brycegsmith.github.io/psg_project/images/flat_pca.png" width="575" height="600">
 
-* _Figure 4: TSNE Results_
+* _Figure 4: TSNE Results - Training Data_
 
 <img src="https://brycegsmith.github.io/psg_project/images/tsne_results.png" width="575" height="600">
 
 Isomap dimensionality reduction was also applied to the data. Because the results did not yield greater differentiation of the sleep stages than PCA and presented the added difficulties of a mixture of low density and high density regions and abnormally shaped clusters, these results were not put through the unsupervised learning algorithms.
 
-* _Figure 5: Isomap Dimensionality Reduction of 5 Top Features_
+* _Figure 5: Isomap Dimensionality Reduction of 5 Top Features - Training Data_
 
 <img src="https://brycegsmith.github.io/psg_project/images/isomap_5features.png" width="550" height="250">
 
-* _Figure 6: Isomap Dimensionality Reduction of 10 Top Features_
+* _Figure 6: Isomap Dimensionality Reduction of 10 Top Features - Training Data_
 
 <img src="https://brycegsmith.github.io/psg_project/images/isomap_10features.png" width="550" height="250">
 
 #### Unsupervised Learning
-After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on our data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared here: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
+After dimensionality reduction, K-Means, GMM, and DBSCAN were implemented on our training data according to the process outlined in the Methodology section. All of the algorithms performed best on the Top 10 feature sets, so only these results are provided. Although each algorithm was applied to each number of reduced components, only the best results are shared here: K-Means (3rd & 4th PCA components), GMM (3rd & 4th PCA components), and DBSCAN (3 TSNE Components).
 
 * _Figure 7: K-Means Best Outcome_
 
@@ -160,7 +160,7 @@ The external quality measures for the best result of each algorithm are provided
 <img src="https://brycegsmith.github.io/psg_project/images/metrics_barplot.png" width="550" height="400">
 
 #### Simplification of K-Means and GMM Clustering
-As mentioned, applying the elbow method for K-Means suggested an ideal cluster size of 3. Because the six sleep stage targets present in this dataset (Wake, NREM1, NREM2, NREM3, NREM4, and REM) can be more broadly grouped into only three more general targets (Wake, NREM, and REM), K-Means and GMM with three clusters were applied and compared to these broader sleep stage classifications. This grouping was also employed for our supervised learning algorithms.
+As mentioned, applying the elbow method for K-Means suggested an ideal cluster size of 3. Because the six sleep stage targets present in this dataset (Wake, NREM1, NREM2, NREM3, NREM4, and REM) can be more broadly grouped into only three more general targets (Wake, NREM, and REM), K-Means and GMM with three clusters were applied and compared to these broader sleep stage classifications. Due to the improvement in metrics, this grouping was also employed for supervised learning algorithms.
 
 * _Figure 11: K-Means - 3 Target Values_
 
@@ -176,6 +176,21 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 |---|---|---|---|---|---|
 |K-Means   |0.2303   |0.8074   |0.2515   |0.6750   |0.7297|
 |GMM   |0.2940   |0.8282   |0.3227   |0.7013   |0.7509|
+
+#### Supervised Learning
+
+* _Figure 13: Naive Bayes Best Outcome_
+
+* _Figure 14: Logistic Regression Best Outcome_
+
+* _Figure 15: Naive Bayes Best Outcome_
+
+* _Figure 16: SVM Best Outcome_
+
+* _Figure 17: LSTM Best Outcome_
+
+* _Figure 18: Comparison of Performance for Each Classification Algorithm_
+
 
 ### Discussion
 
@@ -210,6 +225,10 @@ Interestingly, K-Means and GMM had very similar performance when applied on the 
 Due to the irregularly shaped clusters resulting from the TSNE dimensionality reduction, DBSCAN was the most suitable clustering algorithm to apply to the TSNE dimensions. The best results, shown in Figure 9, were achieved by applying DBSCAN to a three-dimensional TSNE dimensionality reduction. Although relatively high values were achieved for the clustering metrics, especially the Rand Stat (0.74), Fowlkes-Mallows (0.53), and F1 measures (0.66), these results were only achieved by setting a low enough epsilon that all of the small clusters in the TSNE feature space could be captured as unique clusters by the DBSCAN algorithm. This helps with the purity and accuracy of each cluster, but the downside is an uninterpretable cluster assignment of ten clusters to describe only six sleep stages. This clustering result will therefore have poor generalizability to other datasets, and would require knowing the target values in order to interpret the large number of clusters as capturing one sleep stage or another, ultimately defeating the purpose of this being an unsupervised method that could be meaningfully applied without have access to the data labels. On the other hand, the results from GMM and K-Means, while not as good based on our selected metrics, are potentially more interpretable because the PCA dimensionality reduction that they are applied to shows more of a gradient from one sleep stage to the next. So even without known sleep stages, clusters could be reasonable assigned to sleep stages by following this gradient.
 
 Sleep stage prediction seems to be more tailored towards supervised learning methods. Most machine learning projects on sleep staging have gone directly to supervised learning algorithms with great accuracy. Part of our objective in applying unsupervised learning was to take a novel approach and evaluate the viability of unsupervised learning methods for this problem. Assigning each cluster the “majority” sleep stage is not an accurate way to summarize clusters since, as evidenced by the dimensionality reduction plots, there is significant overlap between data points with different sleep stage labels. Another potentially significant issue is that there is not enough distinction between different NREM stages. Machine learning projects that deal with sleep staging often focus on classifying awake, REM, and NREM sleep since there is a lot of overlap in the metrics corresponding to the different stages of NREM sleep, which are often difficult to distinguish based on metrics extracted from PSG data. Indeed, improved results for both K-Means and GMM were observed by simplifying the classification problem to one with only Awake, NREM, and REM labels. Additionally, the proportion of individual NREM sleep stages in our data is significantly uneven. The significant overlap between data points from different sleep stages may be attributable to our pooling of individuals with different diseases. Individuals with different sleeping disorders may present different sleeping characteristics, such as abnormal EEG signal for individuals with noctural frontal lobe epilepsy, or increased EMG activity for those with periodic limb movement (PLM).
+
+#### Supervised Learning
+
+
 
 
 ### References
