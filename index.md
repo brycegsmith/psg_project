@@ -203,13 +203,27 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 
 <img src="https://brycegsmith.github.io/psg_project/images/rf_best_results.png" width="800" height="250">
 
-* _Figure 17: SVM with RBF Kernel Best Outcome_
+* _Figure 17: SVM with Linear Kernel Best Outcome_
+
+[PLACEHOLDER]
+
+* _Figure 18: SVM with RBF Kernel Best Outcome_
 
 <img src="https://brycegsmith.github.io/psg_project/images/SVM_RBF_TSNE.png" width="700" height="350">
 
-* _Figure 18: LSTM Best Outcome_
+* _Figure 19: LSTM Best Outcome_
 
-* _Figure 19: Comparison of Performance for Each Classification Algorithm_
+[PLACEHOLDER]
+
+* _Figure 20: MLP Best Outcome_
+
+<img src="https://brycegsmith.github.io/psg_project/images/mlp_results.png" width="800" height="250">
+
+* _Figure 21: MLP Loss_
+
+<img src="https://brycegsmith.github.io/psg_project/images/mlp_loss.png" width="550" height="400">
+
+* _Figure 22: Comparison of Performance for Each Classification Algorithm_
 
 <img src="https://brycegsmith.github.io/psg_project/images/supervised_accuracy.png" width="550" height="400">
 
@@ -254,7 +268,7 @@ We relied primarily on accuracy scores to evaluate our supervised learning metho
 
 In the sleep staging study by Satapathy, Random Forest achieved the best accuracy among several supervised learning methods.<sup>16</sup> However, the study includes comparisons with others that used methods like SVM and Bayesian classifiers which yielded comparable accuracy.<sup>16</sup> We employed all three of these methods with the addition of Logistic Regression for an additional comparison and LSTM Neural Networks due to their ability to produce highly-accurate predictive models.
 
-The bar chart comparing accuracy between the different supervised methods, shown in Figure 19, reveals that, in general, methods such as Random Forest and SVM that accommodate decision boundaries with more complex shapes tend to perform better. The Gaussian Naive Bayes (GNB) classifier was applied because from inspecting the PCA results, the sleep stages were largely grouped into regions with a somewhat round shape, similar to the spheroidal Gaussian distributions used in the GNB classifier. When applied on the dataset, however, GNB had limited accuracy. One of the challenges contributing to this was the significant overlap between the different sleep stages. While the PCA does generate regions dominated by one sleep stage, these regions are not distinct, and GNB does not learn a decision boundary complex enough to characterize this overlap. Another challenge was that without SMOTE oversampling, the classifier never predicted REM, but with SMOTE, the classifier predicted the REM stage too frequently, as seen when comparing the relatively few REM classifications in Figure 13 to the substantial amount in Figure 14. This reduces the accuracy of the classifier. Logistic regression suffers from similar shortcomings because it does not learn a decision boundary that can accommodate the intricacies of the regions with high overlap between different sleep stages, leading to a high misclassification rate. It also faces the same issue of over-predicing REM with SMOTE applied but completely ignoring REM when no oversampling is used.
+The bar chart comparing accuracy and f1 score between the different supervised methods, shown in Figure 22, reveals that, in general, methods such as Random Forest and SVM that accommodate decision boundaries with more complex shapes tend to perform better. The Gaussian Naive Bayes (GNB) classifier was applied because from inspecting the PCA results, the sleep stages were largely grouped into regions with a somewhat round shape, similar to the spheroidal Gaussian distributions used in the GNB classifier. When applied on the dataset, however, GNB had limited accuracy. One of the challenges contributing to this was the significant overlap between the different sleep stages. While the PCA does generate regions dominated by one sleep stage, these regions are not distinct, and GNB does not learn a decision boundary complex enough to characterize this overlap. Another challenge was that without SMOTE oversampling, the classifier never predicted REM, but with SMOTE, the classifier predicted the REM stage too frequently, as seen when comparing the relatively few REM classifications in Figure 13 to the substantial amount in Figure 14. This reduces the accuracy of the classifier. Logistic regression suffers from similar shortcomings because it does not learn a decision boundary that can accommodate the intricacies of the regions with high overlap between different sleep stages, leading to a high misclassification rate. It also faces the same issue of over-predicing REM with SMOTE applied but completely ignoring REM when no oversampling is used.
 
 Figure 16 shows the best results with Random Forest, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved a high accuracy score of 79%. The training and testing data plots in Figure 15 appear to have similar patterns of sleep stage distribution, with the datapoints labeled “Wake” (0) concentrated in the upper right area, the datapoints labeled “REM” (2) concentrated in the lower left area, and the NREM datapoints concentrated in the upper left and lower right areas. Visually, the decision lines appear to be quite similar. This is validated by the fact that before any pruning (ccp_alpha value of 0), the prediction accuracy is close to 75%, as shown in the corresponding plot in the “Methodology” section. While the lack of pruning certainly leads to overfitting of decision trees on the training data, the loss in accuracy due to this overfitting is not very large because of the similar boundaries, and the introduction of pruning improves the generalizability of the decision lines even further. The plot of predicted classes in Figure 15 closely follows these general patterns. Based on the confusion matrix, a vast majority of the NREM datapoints were predicted correctly; in the other two classes, many of the datapoints were incorrectly predicted as belonging to NREM, especially REM points. This can be explained by the fact that in our training data, while the points belonging to REM tend to be concentrated in the lower left area, a significant number are also found in other areas that overlap significantly with the other two classes. Meanwhile, the points belonging to the other two classes, especially NREM, are more exclusively concentrated in certain areas with less overlap elsewhere, and NREM points make up the greatest proportion of the training data even after undersampling. The predicted classes plot shows that our random forest completely ignores any REM points outside of the lower left region, which hinders the accuracy in that class because of how many REM points overlap with other regions along with the fact that there are fewer REM points to begin with.
 
