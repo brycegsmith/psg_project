@@ -169,7 +169,7 @@ The external quality measures for the best result of each algorithm are provided
 <img src="https://brycegsmith.github.io/psg_project/images/metrics_barplot.png" width="550" height="400">
 
 #### Simplification of K-Means and GMM Clustering
-As mentioned, applying the elbow method for K-Means suggested an ideal cluster size of 3. Because the six sleep stage targets present in this dataset (Wake, NREM1, NREM2, NREM3, NREM4, and REM) can be more broadly grouped into only three more general targets (Wake, NREM, and REM), K-Means and GMM with three clusters were applied and compared to these broader sleep stage classifications. Wake stages were given the label 0, NREM stages were given the label 1, and REM stages were given the label 2. Due to the improvement in metrics, this grouping was also employed for supervised learning algorithms.
+As mentioned, applying the elbow method for K-Means suggested an ideal cluster size of 3. Because the six sleep stage targets present in this dataset (Wake, NREM1, NREM2, NREM3, NREM4, and REM) can be more broadly grouped into only three more general targets (Wake, NREM, and REM), K-Means and GMM with three clusters were applied and compared to these broader sleep stage classifications. Wake points were given the label 0, NREM points were given the label 1, and REM points were given the label 2. Due to the improvement in metrics, this grouping was also employed for supervised learning algorithms.
 
 * _Figure 11: K-Means - 3 Target Values_
 
