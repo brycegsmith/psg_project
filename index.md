@@ -226,6 +226,8 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 
 * _Figure 22: Comparison of Performance for Each Classification Algorithm_
 
+[UPDATE THE FIGURE BELOW]
+
 <img src="https://brycegsmith.github.io/psg_project/images/supervised_accuracy.png" width="550" height="400">
 
 
