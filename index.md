@@ -206,7 +206,7 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 
 * _Figure 17: SVM with Linear Kernel Best Outcome_
 
-<img src="https://brycegsmith.github.io/psg_project/images/svm_linear_results.png" width="800" height="250">
+<img src="https://brycegsmith.github.io/psg_project/images/linear_svm_results.png" width="800" height="250">
 
 * _Figure 18: SVM with RBF Kernel Best Outcome_
 
