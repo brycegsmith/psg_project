@@ -108,7 +108,7 @@ Another parameter that is often tuned in Random Forest is the number of features
 
 <img src="https://brycegsmith.github.io/psg_project/images/TuningRBF.png" width="375" height="250">
 
-* __LSTM Neural Network__: This implementation of a recurrent neural network utilizes the continuous changes to the biases and weights of the network with respect to certain aspects of the previous data that has been processed. Epochs, learning rate, and the number of hidden layers were tuned to develop the most optimal model that we could muster. In addition, we experimented with adding different convolutional and pooling layers as per related literature. The changes to the model failed to improve the model due to overfitting. Our final hyper-parameters were as follows: batch size-1, hidden layers-2, epochs-1000, learning rate-0.001, and a ReLu activation function. Adam was used as our optimization algorithm. 
+* __LSTM Neural Network__: This implementation of a recurrent neural network utilizes the continuous changes to the biases and weights of the network with respect to certain aspects of the previous data that has been processed. Epochs, learning rate, and the number of hidden layers were tuned to develop the most optimal model that we could muster. In addition, we experimented with adding different convolutional and pooling layers as per related literature. The changes to the model failed to improve the model due to overfitting. Our final hyper-parameters were as follows: batch size-1, hidden layers-2, epochs-1000, learning rate-0.001, and a ReLu activation function. Adam was used as our optimization algorithm. Our data was processed by TSNE with 2 components.
 
 * __MLP Neural Network__: After applying dimensionality reduction followed by undersampling to our training data using the Neighborhood Clearing Rule, a Multi-Layer Perceptron (MLP) neural network was applied using the sklearn implementation. Experimenting with the various parameters of the function, such as activation function, number of hidden layers, number of neurons in each layer, type of weight optimization solver, and regularization term size did not result in a consistent noticeable improvement in accuracy or F1 score. As a result, the model fitted on the data used the default variables provided in the sklearn function, which includes a ReLU hidden layer activation function, 1 hidden layer with 100 neurons, and a regularization term of 0.0001. The weight optimization solver used was stochastic gradient descent based.
 
@@ -229,8 +229,6 @@ As mentioned, applying the elbow method for K-Means suggested an ideal cluster s
 <img src="https://brycegsmith.github.io/psg_project/images/mlp_loss.png" width="550" height="400">
 
 * _Figure 23: Comparison of Performance for Each Classification Algorithm_
-
-[UPDATE THE FIGURE BELOW]
 
 <img src="https://brycegsmith.github.io/psg_project/images/supervised_accuracy.png" width="550" height="400">
 
