@@ -283,6 +283,8 @@ Figure 18 shows the best results acheived by SVM with an RBF kernel. This method
 
 Figure 20 shows the best results with an MLP Neural Network, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved 74% accuracy and 73% F1. Unlike LSTM, MLP does not completely ignore REM points, which explains why it performs better.
 
+In order to improve performance any further, we will likely need to train our model with more data.
+
 ### References
 1. Malekzadeh M, Hajibabaee P, Heidari M, Berlin B. Review of Deep Learning Methods for Automated Sleep Staging. 2022:0080-0086.
 2. de Zambotti M, Goldstone A, Claudatos S, Colrain IM, Baker FC. A validation study of Fitbit Charge 2™ compared with polysomnography in adults. Chronobiology International. 2018/04/03 2018;35(4):465-476. doi:10.1080/07420528.2017.1413578
