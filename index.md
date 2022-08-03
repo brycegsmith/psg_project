@@ -1,4 +1,5 @@
 ## CS4641 Summer 2022 Project - Sleep Stage Classification
+### Andrew Inman, Ashok Iyer, Bryce Smith, Josh Lee
 
 ### Infographic
 <img src="https://brycegsmith.github.io/psg_project/images/infographic.png">
