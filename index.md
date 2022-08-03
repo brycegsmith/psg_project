@@ -281,7 +281,9 @@ The best performance for the support vector machine using a linear kernel was ob
 
 Figure 18 shows the best results acheived by SVM with an RBF kernel. This method acheived high accuracy at 77% by overcoming two of the major challenges of the less complex classifiers (GNB and logistic regression). Because the RBF kernel allows for a complex decision boundary to be learned, this method could be successfully applied to the TSNE dimensionality reduction, which does a better job of separating the sleep stages than PCA but generates abnormal shapes that are not suited to GNB and logistic regression. SVM also did not ignore the minority classes REM and Wake, so no undersampling or oversampling was necesarry. This meant SVM did not suffer from an overestimation of the frequency of REM and Wake as GNB and logistic regression did.
 
-Figure 20 shows the best results with an MLP Neural Network, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved 74% accuracy and 73% F1. Unlike LSTM, MLP does not completely ignore REM points, which explains why it performs better.
+Figure 19 displays the performance of the LSTM network, which used the top 5 data after applying a two-dimenstional TSNE algorithm. This prediction acheived 67% accuracy. Our network failed to identify REM points in our dataset. As seen in Figure 19, REM points lacks a clearly defined border as opposed to NREM and Awake points. This is the most likely cause for the model's failure to recognize these points. Figure 20 displays the loss of the model during training. A consistent trend between the two curves displays a lack of overfitting with our datasets. 
+
+Figure 21 shows the best results with an MLP Neural Network, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved 74% accuracy and 73% F1. Unlike LSTM, MLP does not completely ignore REM points, which explains why it performs better.
 
 In order to improve performance any further, we will likely need to train our model with more data.
 
