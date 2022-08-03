@@ -292,7 +292,7 @@ To address the imbalanced accuracy of the RBF Kernel SVM, the model was learned 
 
 Figure 20 displays the performance of the LSTM network, which used the top 10 data after applying a two-dimenstional TSNE algorithm. This prediction acheived 67% accuracy and 59% F1 . Our network failed to identify REM points in our dataset. As seen in Figure 20, REM points lacks a clearly defined border as opposed to NREM and Awake points. This is the most likely cause for the model's failure to recognize these points. Figure 21 displays the loss of the model during training. A consistent trend between the two curves displays a lack of overfitting with our datasets. Figure 22 shows the best results with an MLP Neural Network, which uses the top 5 data after applying a two-dimensional TSNE algorithm. This prediction achieved 74% accuracy and 73% F1. Unlike LSTM, MLP does not completely ignore REM points, which explains why it performs better.
 
-In order to improve performance any further, we will likely need to train our model with more data.
+In order to improve performance any further, we will likely need to train our models with more data.
 
 ### References
 1. Malekzadeh M, Hajibabaee P, Heidari M, Berlin B. Review of Deep Learning Methods for Automated Sleep Staging. 2022:0080-0086.
